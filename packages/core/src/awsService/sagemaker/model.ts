@@ -38,7 +38,7 @@ class HyperPodSshConfig extends SshConfig {
 
     protected override createSSHConfigSection(proxyCommand: string): string {
         return `
-# Created by AWS Toolkit for VSCode. https://github.com/aws/aws-toolkit-vscode
+# Created by Amazon Q for VSCode. https://github.com/aws/amazon-q-vscode
 Host hp_*
     ForwardAgent yes
     AddKeysToAgent yes

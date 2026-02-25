@@ -7,7 +7,7 @@ import * as vscode from 'vscode'
 import { manageAccessGuideURL } from '../amazonq/webview/ui/texts/constants'
 
 export const profileSettingKey = 'profile'
-export const productName: string = 'aws-toolkit-vscode'
+export const productName: string = 'amazon-q-vscode'
 
 export const hostedFilesBaseUrl: string = 'https://d3rrggjwfhwld2.cloudfront.net/'
 export const endpointsFileUrl: string = 'https://idetoolkits.amazonwebservices.com/endpoints.json'
@@ -22,7 +22,7 @@ export const samUpgradeUrl = vscode.Uri.parse(
 export const samTroubleshootingUrl = vscode.Uri.parse(
     'https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-cli-troubleshooting.html'
 )
-export const githubUrl: string = 'https://github.com/aws/aws-toolkit-vscode'
+export const githubUrl: string = 'https://github.com/aws/amazon-q-vscode'
 export const githubCreateIssueUrl = `${githubUrl}/issues/new/choose`
 
 export const documentationUrl = {

@@ -29,8 +29,7 @@
                     <div>
                         <em
                             >Feedback is <b>anonymous</b>. If you need a reply,
-                            <a href="https://github.com/aws/aws-toolkit-vscode/issues/new/choose"
-                                >contact us on GitHub</a
+                            <a href="https://github.com/aws/amazon-q-vscode/issues/new/choose">contact us on GitHub</a
                             >.</em
                         >
                     </div>

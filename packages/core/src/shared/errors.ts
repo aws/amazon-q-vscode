@@ -397,7 +397,7 @@ export function scrubNames(s: string, username?: string) {
         'users',
         'home',
         'tmp',
-        'aws-toolkit-vscode',
+        'amazon-q-vscode',
         'globalStorage', // from vscode globalStorageUri
         crashMonitoringDirName,
     ])

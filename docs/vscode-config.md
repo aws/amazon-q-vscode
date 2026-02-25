@@ -82,11 +82,11 @@ You can learn more about VSCode settings and the settings editor [here](https://
 
 The `extensions.json` file is used to specify the recommended extensions that should be installed in the given workspace. When a user opens a new workspace, if any of the recommended extensions are not currently installed, the user will be prompted to install them.
 
-In all extensions.json, we want to at minimum recommend the aws-toolkit-vscode extension.
+In all extensions.json, we want to at minimum recommend the amazon-q-vscode extension.
 
 ```json
 {
-    "recommendations": ["amazonwebservices.aws-toolkit-vscode"]
+    "recommendations": ["amazonwebservices.amazon-q-vscode"]
 }
 ```
 

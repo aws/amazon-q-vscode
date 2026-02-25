@@ -81,10 +81,10 @@ export class UriHandler implements vscode.UriHandler {
     }
 
     /**
-     * Adds a "path handler" for `vscode://amazonwebservices.aws-toolkit-vscode/<path>` URIs.
+     * Adds a "path handler" for `vscode://amazonwebservices.amazon-q-vscode/<path>` URIs.
      *
      *
-     * @param path Target path, e.g. "/foo/bar" handles URI: `vscode://amazonwebservices.aws-toolkit-vscode/foo/bar`.
+     * @param path Target path, e.g. "/foo/bar" handles URI: `vscode://amazonwebservices.amazon-q-vscode/foo/bar`.
      * @param handler Callback fired when the extension receives a URI that matches `path`.
      * @param parser Optional callback to parse the URI parameters prior to calling the handler
      *

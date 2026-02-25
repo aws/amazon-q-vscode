@@ -5,7 +5,7 @@
 
 ## Monorepo Structure
 
-**The easiest way to open the project for running/debugging:** File > Open Workspace from File > choose `aws-toolkit-vscode/aws-toolkit-vscode.code-workspace`
+**The easiest way to open the project for running/debugging:** File > Open Workspace from File > choose `amazon-q-vscode/amazon-q-vscode.code-workspace`
 
 This project is currently set up as a typescript monorepo with the following subprojects:
 

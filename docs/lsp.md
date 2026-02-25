@@ -26,12 +26,12 @@ sequenceDiagram
 
 ## Language Server Debugging
 
-If you want to connect a local version of language-servers to aws-toolkit-vscode, follow these steps:
+If you want to connect a local version of language-servers to amazon-q-vscode, follow these steps:
 
 1. Clone https://github.com/aws/language-servers.git and set it up in the same workspace as this project by cmd+shift+p and "add folder to workspace" and selecting the language-servers folder that you just cloned. Your VS code folder structure should look like below.
 
     ```
-    /aws-toolkit-vscode
+    /amazon-q-vscode
     /toolkit
     /core
     /amazonq
@@ -68,12 +68,12 @@ If the breakpoints in your language-servers project remain greyed out and do not
 
 ## Language Server Runtimes Debugging
 
-If you want to connect a local version of language-server-runtimes to aws-toolkit-vscode, follow these steps:
+If you want to connect a local version of language-server-runtimes to amazon-q-vscode, follow these steps:
 
 1. Clone https://github.com/aws/language-server-runtimes.git and set it up in the same workspace as this project by cmd+shift+p and "add folder to workspace" and selecting the language-server-runtimes folder that you just cloned. Your VS code folder structure should look like below.
 
     ```
-    /aws-toolkit-vscode
+    /amazon-q-vscode
     /toolkit
     /core
     /amazonq
@@ -113,9 +113,9 @@ For example, if you would like the change in `language-servers/app/aws-lsp-codew
 
     npm run compile
 
-5a. If you need the change in aws-toolkit-vscode run:
+5a. If you need the change in amazon-q-vscode run:
 
-    cd aws-toolkit-vscode
+    cd amazon-q-vscode
 
     npm install ../language-server-runtimes/runtimes/out/aws-language-server-runtimes-0.*.*.tgz
 
@@ -127,7 +127,7 @@ For example, if you would like the change in `language-servers/app/aws-lsp-codew
     cd ../../types
     npm link
 
-4b. Inside of aws-toolkit-vscode run:
+4b. Inside of amazon-q-vscode run:
 
     npm install
     npm link @aws/language-server-runtimes @aws/language-server-runtimes-types

@@ -9,7 +9,7 @@ const testFilesMessage =
     '- This pull request modifies code in `src/*` but no tests were added/updated.\n    - Confirm whether tests should be added or ensure the PR description explains why tests are not required.\n'
 
 const changelogMessage =
-    '- This pull request implements a `feat` or `fix`, so it must include a changelog entry (unless the fix is for an *unreleased* feature). Review the [changelog guidelines](https://github.com/aws/aws-toolkit-vscode/blob/master/CONTRIBUTING.md#changelog).\n    - Note: beta or "experiment" features that have active users *should* announce fixes in the changelog.\n    - If this is not a feature or fix, use an appropriate type from the [title guidelines](https://github.com/aws/aws-toolkit-vscode/blob/master/CONTRIBUTING.md#pull-request-title). For example, telemetry-only changes should use the `telemetry` type.\n'
+    '- This pull request implements a `feat` or `fix`, so it must include a changelog entry (unless the fix is for an *unreleased* feature). Review the [changelog guidelines](https://github.com/aws/amazon-q-vscode/blob/master/CONTRIBUTING.md#changelog).\n    - Note: beta or "experiment" features that have active users *should* announce fixes in the changelog.\n    - If this is not a feature or fix, use an appropriate type from the [title guidelines](https://github.com/aws/amazon-q-vscode/blob/master/CONTRIBUTING.md#pull-request-title). For example, telemetry-only changes should use the `telemetry` type.\n'
 
 /**
  * Remind partner teams that tests are required. We don't need to remind them if:

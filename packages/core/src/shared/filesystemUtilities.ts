@@ -13,7 +13,7 @@ import globals from '../shared/extensionGlobals'
 import fs from '../shared/fs/fs'
 import { ToolkitError } from './errors'
 import * as nodeFs from 'fs/promises'
-
+// Stillk following the old repo as folder name for backward compatibility
 export const tempDirPath = path.join(
     // https://github.com/aws/aws-toolkit-vscode/issues/240
     os.type() === 'Darwin' ? '/tmp' : os.tmpdir(),

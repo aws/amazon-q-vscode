@@ -198,7 +198,7 @@ export class SshConfig {
         // "IdentitiesOnly yes" forces agent to only use provided identity file.
         // More details: https://www.ssh.com/academy/ssh/config
         return `
-# Created by AWS Toolkit for VSCode. https://github.com/aws/aws-toolkit-vscode
+# Created by Amazon Q for VSCode. https://github.com/aws/amazon-q-vscode
 Host ${this.configHostName}
     ForwardAgent yes
     AddKeysToAgent yes
@@ -210,7 +210,7 @@ Host ${this.configHostName}
 
     private getSageMakerSSHConfig(proxyCommand: string): string {
         return `
-# Created by AWS Toolkit for VSCode. https://github.com/aws/aws-toolkit-vscode
+# Created by Amazon Q for VSCode. https://github.com/aws/amazon-q-vscode
 Host ${this.configHostName}
     ForwardAgent yes
     AddKeysToAgent yes

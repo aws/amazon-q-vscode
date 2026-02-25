@@ -45,7 +45,7 @@ export function registerLambdaUriHandler() {
 }
 
 // Sample url:
-// vscode://AmazonWebServices.aws-toolkit-vscode/lambda/load-function?functionName=fnf-func-1&region=us-east-1&isCfn=true
+// vscode://AmazonWebServices.amazon-q-vscode/lambda/load-function?functionName=fnf-func-1&region=us-east-1&isCfn=true
 export function parseOpenParams(query: SearchParams) {
     return {
         functionName: query.getOrThrow(
