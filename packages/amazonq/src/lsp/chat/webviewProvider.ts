@@ -24,7 +24,6 @@ import {
 } from 'aws-core-vscode/shared'
 import { AuthUtil, RegionProfile } from 'aws-core-vscode/codewhisperer'
 import { featureConfig } from 'aws-core-vscode/amazonq'
-import { getAmazonQLspConfig } from '../config'
 import { BaseLanguageClient } from 'vscode-languageclient'
 
 export class AmazonQChatViewProvider implements WebviewViewProvider {
@@ -52,17 +51,15 @@ export class AmazonQChatViewProvider implements WebviewViewProvider {
         const dist = Uri.joinPath(globals.context.extensionUri, 'dist')
         const bundledResources = Uri.joinPath(globals.context.extensionUri, 'resources/language-server')
         let resourcesRoots = [lspDir, dist]
-        if (this.mynahUIPath?.startsWith(globals.context.extensionUri.fsPath)) {
+        const resolvedMynahUIPath = path.resolve(this.mynahUIPath)
+        if (resolvedMynahUIPath.startsWith(globals.context.extensionUri.fsPath)) {
             getLogger('amazonqLsp').info(`Using bundled webview resources ${bundledResources.fsPath}`)
             resourcesRoots = [bundledResources, dist]
-        }
-        /**
-         * if the mynah chat client is defined, then make sure to add it to the resource roots, otherwise
-         * it will 401 when trying to load
-         */
-        const mynahUIPath = getAmazonQLspConfig().ui
-        if (process.env.WEBPACK_DEVELOPER_SERVER && mynahUIPath) {
-            const dir = path.dirname(mynahUIPath)
+        } else {
+            // The UI file is outside the extension directory (e.g. a local dev override),
+            // so its directory must be added to resource roots to avoid 401 errors.
+            const dir = path.dirname(resolvedMynahUIPath)
+            getLogger('amazonqLsp').info(`Adding external webview resource root: ${dir}`)
             resourcesRoots.push(Uri.file(dir))
         }
 
