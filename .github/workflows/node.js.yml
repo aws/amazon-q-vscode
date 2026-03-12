@@ -117,6 +117,44 @@ jobs:
                   REPO_NAME: ${{ github.repository }}
               run: node "$GITHUB_WORKSPACE/.github/workflows/filterDuplicates.js" run diff_output.txt jscpd-report.json $COMMIT_HASH $REPO_NAME
 
+    linux:
+        needs: lint-commits
+        name: test Linux
+        runs-on: ubuntu-latest
+        strategy:
+            fail-fast: false
+            matrix:
+                node-version: [18.x]
+                vscode-version: [minimum, stable, insiders]
+                package: [amazonq]
+        env:
+            VSCODE_TEST_VERSION: ${{ matrix.vscode-version }}
+            NODE_OPTIONS: '--max-old-space-size=8192'
+            AWS_TOOLKIT_TEST_CACHE_DIR: '/tmp/.vscode-test/'
+            AWS_TOOLKIT_TEST_USER_DIR: '/tmp/.vscode-test/user-data/'
+        steps:
+            - uses: actions/checkout@v4
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v4
+              with:
+                  node-version: ${{ matrix.node-version }}
+            - run: npm ci
+            - name: Tests
+              uses: coactions/setup-xvfb@v1
+              with:
+                  run: npm run test -w packages/${{ matrix.package }}
+            - name: Code coverage for ${{ matrix.package }}
+              env:
+                  # Unset NODE_OPTIONS because of https://github.com/codecov/uploader/issues/475
+                  NODE_OPTIONS: ''
+              if: ${{ github.repository == 'aws/amazon-q-vscode' && github.event_name == 'pull_request' && github.base_ref == 'main' }}
+              uses: codecov/codecov-action@v5
+              with:
+                  flags: linux-${{ matrix.package }}-unittests
+                  verbose: true
+                  file: ./coverage/${{ matrix.package }}/lcov.info
+                  token: ${{ secrets.CODECOV_TOKEN }}
+
     macos:
         needs: lint-commits
         name: test macOS
@@ -180,6 +218,76 @@ jobs:
               uses: coactions/setup-xvfb@v1
               with:
                   run: npm run testWeb
+
+    e2e:
+        needs: lint-commits
+        name: test E2E
+        runs-on: ubuntu-latest
+        strategy:
+            fail-fast: false
+            matrix:
+                node-version: [18.x]
+                # TODO: Expand to [minimum, stable, insiders] once E2E tests are stable.
+                vscode-version: [stable]
+                package: [amazonq]
+        env:
+            VSCODE_TEST_VERSION: ${{ matrix.vscode-version }}
+            NODE_OPTIONS: '--max-old-space-size=8192'
+            AWS_TOOLKIT_TEST_CACHE_DIR: '/tmp/.vscode-test/'
+            AWS_TOOLKIT_TEST_USER_DIR: '/tmp/.vscode-test/user-data/'
+        steps:
+            - uses: actions/checkout@v4
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v4
+              with:
+                  node-version: ${{ matrix.node-version }}
+            - run: npm ci
+            - name: Increase file watchers
+              run: echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
+            - name: Tests
+              uses: coactions/setup-xvfb@v1
+              with:
+                  run: npm run testE2E -w packages/${{ matrix.package }}
+            - name: Upload test reports
+              if: always()
+              uses: actions/upload-artifact@v4
+              with:
+                  name: e2e-test-reports-${{ matrix.vscode-version }}
+                  path: .test-reports/
+            - name: Code coverage for ${{ matrix.package }}
+              env:
+                  NODE_OPTIONS: ''
+              if: ${{ github.repository == 'aws/amazon-q-vscode' && github.event_name == 'pull_request' && github.base_ref == 'main' }}
+              uses: codecov/codecov-action@v5
+              with:
+                  flags: linux-${{ matrix.package }}-e2e
+                  verbose: true
+                  file: ./coverage/${{ matrix.package }}/lcov.info
+                  token: ${{ secrets.CODECOV_TOKEN }}
+
+    package:
+        needs: lint-commits
+        name: package VSIX
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                node-version: [18.x]
+        env:
+            NODE_OPTIONS: '--max-old-space-size=8192'
+        steps:
+            - uses: actions/checkout@v4
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v4
+              with:
+                  node-version: ${{ matrix.node-version }}
+            - run: npm ci
+            - run: npm run createRelease -w packages/amazonq
+            - run: npm run package -w packages/amazonq
+            - name: Upload VSIX artifact
+              uses: actions/upload-artifact@v4
+              with:
+                  name: amazonq-vsix
+                  path: '*.vsix'
 
     windows:
         needs: lint-commits
