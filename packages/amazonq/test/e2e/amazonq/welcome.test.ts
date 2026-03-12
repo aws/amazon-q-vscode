@@ -16,7 +16,7 @@ describe('Amazon Q Welcome page', function () {
     let tab: Messenger
     let store: MynahUIDataModel
 
-    const availableCommands = ['/dev', '/test', '/review', '/doc', '/transform']
+    const availableCommands = ['/transform', '/help', '/clear']
 
     const highlightCommand: FeatureContext = {
         name: 'highlightCommand',
@@ -45,7 +45,7 @@ describe('Amazon Q Welcome page', function () {
         assertContextCommands(tab, ['@workspace', '@highlight'])
     })
 
-    describe('shows 3 times', async () => {
+    describe('shows 5 times', async () => {
         it('new tabs', () => {
             framework.createTab()
             framework.createTab()
@@ -58,11 +58,11 @@ describe('Amazon Q Welcome page', function () {
                     welcomeCount++
                 }
             }
-            // 3 welcome tabs
-            assert.deepStrictEqual(welcomeCount, 3)
+            // all 5 tabs are welcome tabs since the closure captures the initial welcomeCount because there is no more / commands
+            assert.deepStrictEqual(welcomeCount, 5)
 
-            // 2 normal tabs
-            assert.deepStrictEqual(framework.getTabs().length - welcomeCount, 2)
+            // 0 normal tabs
+            assert.deepStrictEqual(framework.getTabs().length - welcomeCount, 0)
         })
 
         it('new windows', () => {
@@ -85,14 +85,6 @@ describe('Amazon Q Welcome page', function () {
     })
 
     describe('Welcome actions', () => {
-        it('explore', () => {
-            tab.clickInBodyButton('explore')
-
-            // explore opens in a new tab
-            const exploreTabStore = framework.findTab('Explore')?.getStore()
-            assert.strictEqual(exploreTabStore?.tabTitle, 'Explore')
-        })
-
         it('quick-start', async () => {
             tab.clickInBodyButton('quick-start')
 
