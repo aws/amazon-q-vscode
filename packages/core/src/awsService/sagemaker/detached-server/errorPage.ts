@@ -97,12 +97,24 @@ export const ErrorText = {
     },
 }
 
+function escapeHtml(unsafe: string): string {
+    return unsafe
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;')
+}
+
 export async function openErrorPage(title: string, message: string) {
+    const safeTitle = escapeHtml(title)
+    const safeMessage = escapeHtml(message)
+
     const html = `<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <title>${title}</title>
+    <title>${safeTitle}</title>
     <style>
         body {
             margin: 0;
@@ -145,8 +157,8 @@ export async function openErrorPage(title: string, message: string) {
 <body>
     <div class="card">
         <div class="error-icon">❌</div>
-        <div class="title">${title}</div>
-        <div class="message">${message}</div>
+        <div class="title">${safeTitle}</div>
+        <div class="message">${safeMessage}</div>
     </div>
 </body>
 </html>`
