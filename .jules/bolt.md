@@ -1,0 +1,3 @@
+## 2024-05-10 - Optimizing appendFile with native Node operations
+**Learning:** High-level abstractions in the codebase (like the VS Code VFS) may lack efficient 'append' support, leading to O(N) memory usage for file appends. Using native 'nodefs.appendFile' provides O(1) memory complexity but requires manual handling of parent directory creation.
+**Action:** When working on performance-sensitive I/O, check if higher-level abstractions are using inefficient patterns like read-modify-write. Use 'nodefs.mkdir(..., { recursive: true })' before native file operations to ensure consistent behavior with the VS Code VFS while gaining native performance.
