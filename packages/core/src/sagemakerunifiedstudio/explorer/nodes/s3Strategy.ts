@@ -556,7 +556,7 @@ function getRootNodeFromS3AccessGrant(
         const { bucket: parsedBucket, key: parsedKey } = parseS3UriForAccessGrant(s3Uri)
         bucket = parsedBucket
         key = parsedKey
-        label = s3Uri.replace('s3://', '').replace('*', '')
+        label = s3Uri.replace('s3://', '').replace(/\*/g, '')
         nodeId = label
     } else {
         label = s3AccessGrant.GrantScope ?? ''
