@@ -53,5 +53,5 @@ const path = join(directory, fileName)
 nodefs.writeFileSync(path, JSON.stringify(contents, undefined, '\t') + '\n')
 
 console.log(`Change log written to ${path}`)
-child_process.execSync(`git add ${directory}`)
+child_process.execFileSync('git', ['add', directory])
 console.log('Change log added to git working directory')

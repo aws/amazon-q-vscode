@@ -42,10 +42,33 @@ export async function* listStateMachines(
  * @param role The IAM role to check
  */
 export function isStepFunctionsRole(role: IamRole): boolean {
-    const stepFunctionsSevicePrincipal: string = 'states.amazonaws.com'
+    const stepFunctionsSevicePrincipal = 'states.amazonaws.com'
     const assumeRolePolicyDocument: string | undefined = role.AssumeRolePolicyDocument
 
-    return !!assumeRolePolicyDocument?.includes(stepFunctionsSevicePrincipal)
+    if (!assumeRolePolicyDocument) {
+        return false
+    }
+
+    try {
+        const decodedPolicy = decodeURIComponent(assumeRolePolicyDocument)
+        const policy = JSON.parse(decodedPolicy) as {
+            Statement?: { Principal?: { Service?: string | string[] } } | Array<{ Principal?: { Service?: string | string[] } }>
+        }
+        const statements = Array.isArray(policy.Statement)
+            ? policy.Statement
+            : policy.Statement
+              ? [policy.Statement]
+              : []
+
+        return statements.some((statement) => {
+            const service = statement.Principal?.Service
+            return Array.isArray(service)
+                ? service.some((s) => s === stepFunctionsSevicePrincipal)
+                : service === stepFunctionsSevicePrincipal
+        })
+    } catch {
+        return false
+    }
 }
 
 export async function isDocumentValid(text: string, textDocument?: vscode.TextDocument): Promise<boolean> {

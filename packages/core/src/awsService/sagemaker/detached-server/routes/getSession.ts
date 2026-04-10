@@ -49,7 +49,7 @@ export async function handleGetSession(req: IncomingMessage, res: ServerResponse
         )
     } catch (err) {
         const error = err as SageMakerServiceException
-        console.error(`Failed to start SageMaker session for ${connectionIdentifier}:`, err)
+        console.error('Failed to start SageMaker session for %s:', connectionIdentifier, err)
         const errorTitle = getVSCodeErrorTitle(error)
         const errorText = getVSCodeErrorText(error, isSmus, isSmusIamConn)
         await openErrorPage(errorTitle, errorText)

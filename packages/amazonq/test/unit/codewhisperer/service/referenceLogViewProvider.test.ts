@@ -61,7 +61,17 @@ describe('referenceLogViewProvider', function () {
             assert.ok(actualTime === currentTimeString || actualTime === nextTimeString)
             assert.ok(actual.includes('MIT'))
             assert.ok(actual.includes('def two_su'))
-            assert.ok(actual.includes(mockUrl))
+            const expectedHost = new URL(mockUrl).host
+            const parsedHostsInActual = (actual.match(/https?:\/\/[^\s)]+/g) ?? [])
+                .map(urlText => {
+                    try {
+                        return new URL(urlText).host
+                    } catch {
+                        return undefined
+                    }
+                })
+                .filter((host): host is string => host !== undefined)
+            assert.ok(parsedHostsInActual.includes(expectedHost))
             assert.ok(!actual.includes(LicenseUtil.getLicenseHtml('MIT')))
         })
     })

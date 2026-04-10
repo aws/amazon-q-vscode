@@ -188,9 +188,28 @@ export function isValidMethodSignature(symbol: vscode.DocumentSymbol): boolean {
  * @param input String to remove generics from
  */
 function stripGenericsFromParams(input: string): string {
-    const cSharpGenericIdentifierRegex = /(?:<{1}(?:\s*[a-zA-Z_@][a-zA-Z0-9._]*[\s,]?)*>{1})/g
+    let depth = 0
+    let output = ''
 
-    return input.replace(cSharpGenericIdentifierRegex, '')
+    for (const ch of input) {
+        if (ch === '<') {
+            depth++
+            continue
+        }
+
+        if (ch === '>') {
+            if (depth > 0) {
+                depth--
+                continue
+            }
+        }
+
+        if (depth === 0) {
+            output += ch
+        }
+    }
+
+    return output
 }
 
 export function generateDotNetLambdaHandler(components: DotNetLambdaHandlerComponents): string {

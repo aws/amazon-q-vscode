@@ -15,9 +15,21 @@
 
         <h3 id="sentiment-heading">How was your experience?</h3>
         <div>
-            <input id="positive-sentiment" type="radio" value="Positive" v-model="sentiment" />
+            <input
+                id="positive-sentiment"
+                type="radio"
+                value="Positive"
+                v-model="sentiment"
+                aria-label="Positive"
+            />
             <label for="positive-sentiment"></label>
-            <input id="negative-sentiment" type="radio" value="Negative" v-model="sentiment" />
+            <input
+                id="negative-sentiment"
+                type="radio"
+                value="Negative"
+                v-model="sentiment"
+                aria-label="Negative"
+            />
             <label for="negative-sentiment"></label>
         </div>
 
@@ -63,13 +75,20 @@
                             style="float: right; font-size: smaller"
                             id="remaining"
                             :class="comment.length > 2000 ? 'exceeds-max-length' : ''"
+                            aria-live="polite"
                         >
                             {{ 2000 - comment.length }} characters remaining
                         </div>
                     </div>
                 </div>
             </div>
-            <textarea style="width: 100%; margin-bottom: 10px" rows="10" cols="90" v-model="comment"></textarea>
+            <textarea
+                style="width: 100%; margin-bottom: 10px"
+                rows="10"
+                cols="90"
+                v-model="comment"
+                aria-labelledby="feedback-heading"
+            ></textarea>
         </div>
     </div>
 </template>

@@ -1,12 +1,59 @@
-# Contributing to Amazon Q for VS Code
+# CONTRIBUTING TO THE VOID: MILEHIGH-WORLD LLC Architectural Standard
 
-Thanks for taking the time to help improve Amazon Q for VS Code! We greatly value
-feedback and contributions from the community.
+Welcome, Architect. By contributing to this repository, you are participating in the stabilization of the AeroCore and the expansion of the ENNEAvERSE. We follow a strict technical-narrative hybrid standard to ensure system resilience and thematic alignment.
 
-Reviewing this document will maximize your success in working with the
-codebase and sending pull requests.
+## 1. Branching Strategy: The Tiered Frequency
 
-## Getting Started
+All work must be performed in branches using the following prefixes. Merges to main require "IX-Node Stabilization" (successful CI pass and artifact verification).
+
+*   `core/`: Fundamental infrastructure, gRPC services, and AeroCore logic.
+*   `void/`: Narrative state machines, gameplay loops, and world-building.
+*   `ix/`: Experimental nodes, AI-agentic workflows, and stabilization testing.
+*   `phnx/`: Security hardening, resilience, and PHNX3NT protocols.
+
+## 2. Commit Standards: Semantic Reality
+
+We use a specialized version of Conventional Commits. Every commit must be scoped to its architectural plane:
+
+*   `void`: Narrative systems or ENNEAvERSE logic updates.
+*   `unity`: Unity 6 engine implementation (specifically targeting `/void-engine`).
+*   `aerocore`: Backend services, infrastructure, and core gRPC.
+*   `ix-node`: Data integrity, parity logic, or Spirit Logic adjustments.
+
+**Format:** `type(scope): description`
+**Example:** `feat(void): implement Reality Shift cooldown logic for Reverie`
+
+## 3. Core Principle: Conservation of Nine
+
+All system manifests, data arrays, and configuration blocks must adhere to the Conservation of Nine.
+
+*   **Logical Constraint:** Structures should be designed in multiples of nine.
+*   **Parity Rule:** If a system requires $N+1$ modules where $N$ is a multiple of nine, the $(N+1)^{th}$ module must function as a parity bit or stabilization anchor for the preceding nine.
+
+## 4. Unity 6 Integration
+
+All C# assets, physics loops, and Unity-specific materials reside in the `/void-engine` directory.
+
+*   **Privacy:** `com.unity.services.core/Settings.json` must remain in `.gitignore`.
+*   **Architecture:** Separation of concerns between the Web-UI (`/src`) and the Game Engine (`/void-engine`) is mandatory.
+
+## 5. Versioning: Semantic Void (SVV)
+
+We use the pattern: `[Major].[Minor].[Patch]-void.[IX-Node]`
+*   `void.[n]`: Represents the stabilization iteration of the current release candidate.
+
+## 6. PR Requirements
+
+*   **SHA-256 Verification:** All build artifacts must pass the verification workflow.
+*   **Spirit Logic Check:** Ensure no "Void Corruption" (memory leaks or unhandled exceptions in the game loop) is introduced.
+*   **Documentation:** Update the "Stabilization Protocol" in the component's README if the architecture changes.
+
+---
+*Document controlled by MILEHIGH-WORLD LLC. Unauthorized deviation from the IX-Standard results in immediate branch decommissioning.*
+
+---
+
+# Getting Started (Technical)
 
 This project is set up as a typescript monorepo. The documentation throughout this project
 is referring to the subprojects [`packages/amazonq/`](./packages/amazonq/) and [`packages/core/`](./packages/core/).
@@ -23,13 +70,13 @@ issues.
 
 To develop this project, install these dependencies:
 
--   [Visual Studio Code](https://code.visualstudio.com/Download)
--   [NodeJS and NPM](https://nodejs.org/) (latest version of both)
--   [Typescript](https://www.typescriptlang.org/)
--   [Git](https://git-scm.com/downloads)
-    -   (optional) Set `git blame` to ignore noise-commits: `git config blame.ignoreRevsFile .git-blame-ignore-revs`
--   [AWS `git secrets`](https://github.com/awslabs/git-secrets)
--   [TypeScript + Webpack Problem Matcher](https://marketplace.visualstudio.com/items?itemName=amodio.tsl-problem-matcher) - Not installing will result in the following error during building: `Error: Invalid problemMatcher reference: $ts-webpack-watch`
+- [Visual Studio Code](https://code.visualstudio.com/Download)
+- [NodeJS and NPM](https://nodejs.org/) (latest version of both)
+- [Typescript](https://www.typescriptlang.org/)
+- [Git](https://git-scm.com/downloads)
+  - (optional) Set `git blame` to ignore noise-commits: `git config blame.ignoreRevsFile .git-blame-ignore-revs`
+- [AWS `git secrets`](https://github.com/awslabs/git-secrets)
+- [TypeScript + Webpack Problem Matcher](https://marketplace.visualstudio.com/items?itemName=amodio.tsl-problem-matcher) - Not installing will result in the following error during building: `Error: Invalid problemMatcher reference: $ts-webpack-watch`
     Then clone the repository and install NPM packages:
 
         git clone git@github.com:aws/amazon-q-vscode.git
@@ -62,24 +109,33 @@ When you launch the extension or run tests from VSCode, it will automatically bu
 
 You can also use these NPM tasks (see `npm run` for the full list):
 
--   To build once:
+- To build once:
+
     ```
     npm run compile
     ```
--   To build and watch for file changes:
+
+- To build and watch for file changes:
+
     ```
     npm run watch
     ```
--   To build a release artifact (VSIX):
+
+- To build a release artifact (VSIX):
+
     ```
     npm run package
     ```
-    -   This uses webpack which may exhaust the default Node heap size on Linux.
+
+  - This uses webpack which may exhaust the default Node heap size on Linux.
         To fix this set `--max-old-space-size`:
+
         ```
         export NODE_OPTIONS=--max-old-space-size=8192
         ```
--   To build a "debug" VSIX artifact (faster and does not minify):
+
+- To build a "debug" VSIX artifact (faster and does not minify):
+
     ```
     npm run package -- --debug
     ```
@@ -88,41 +144,42 @@ You can also use these NPM tasks (see `npm run` for the full list):
 
 ### Guidelines
 
--   Architecture: [arch_overview.md](./docs/arch_overview.md)
--   Project patterns and practices: [CODE_GUIDELINES.md](./docs/CODE_GUIDELINES.md)
--   [VS Code Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-    -   [Webview guidance](https://code.visualstudio.com/api/ux-guidelines/webviews)
--   [VS Code API Documentation](https://code.visualstudio.com/api/references/vscode-api)
--   [VS Code Extension Capabilities](https://code.visualstudio.com/api/extension-capabilities/common-capabilities)
+- Architecture: [arch_overview.md](./docs/arch_overview.md)
+- Project patterns and practices: [CODE_GUIDELINES.md](./docs/CODE_GUIDELINES.md)
+- [VS Code Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
+  - [Webview guidance](https://code.visualstudio.com/api/ux-guidelines/webviews)
+- [VS Code API Documentation](https://code.visualstudio.com/api/references/vscode-api)
+- [VS Code Extension Capabilities](https://code.visualstudio.com/api/extension-capabilities/common-capabilities)
 
 ### Prerelease artifacts
 
--   CI automatically publishes GitHub [prereleases](https://github.com/aws/amazon-q-vscode/releases)
+- CI automatically publishes GitHub [prereleases](https://github.com/aws/amazon-q-vscode/releases)
     for `master` and `feature/x` branches, including `.vsix` artifacts which can
     be used to test the latest build for that branch. Each prerelease and its
     artifact are continually updated from the HEAD of its branch.
--   PR artifacts: each pull request is processed by an AWS CodeBuild job which
+- PR artifacts: each pull request is processed by an AWS CodeBuild job which
     runs all tests and provides the build result via the _Details_ link as shown
     below.
-    -   <img src="./docs/images/ci-artifact.png" alt="CI artifact" width="512"/>
+  - <img src="./docs/images/ci-artifact.png" alt="CI artifact" width="512"/>
 
 ### Technical notes
 
--   VSCode extensions have a [100MB](https://github.com/Microsoft/vscode-vsce/issues/179) file size limit.
--   `src/testFixtures/` is excluded in `.vscode/settings.json`, to prevent VSCode
+- VSCode extensions have a [100MB](https://github.com/Microsoft/vscode-vsce/issues/179) file size limit.
+- `src/testFixtures/` is excluded in `.vscode/settings.json`, to prevent VSCode
     from treating its files as project files.
--   The codebase provides [globals](https://github.com/aws/amazon-q-vscode/blob/c6ad8ecd602fab64b563519dc2a455ee0b252dde/src/shared/extensionGlobals.ts#L55),
+- The codebase provides [globals](https://github.com/aws/amazon-q-vscode/blob/c6ad8ecd602fab64b563519dc2a455ee0b252dde/src/shared/extensionGlobals.ts#L55),
     which must be used instead of some common javascript globals. In particular, clock-related things like `Date` and `setTimeout`
     must not be used directly, instead use `globals.clock.Date` and `globals.clock.setTimeout`. [#2343](https://github.com/aws/amazon-q-vscode/pull/2343)
--   VSCode extension examples: <https://github.com/microsoft/vscode-extension-samples>
--   Tests
-    -   Use `function ()` and `async function ()` syntax for `describe()` and `it()` callbacks [instead of arrow functions.](https://mochajs.org/#arrow-functions)
-    -   Do NOT include any `await` functions in `describe()` blocks directly (usage in `before`, `beforeEach`, `after`, `afterEach`, and `it` blocks is fine).
-        -   `await` in `describe()` causes the framework to always evaluate the `describe` block and can cause issues with either tests not running or always running (if other tests are marked with `.only`)
-        -   Tests that require a premade value from a Promise should initialize the value as a `let` and make the `await`ed assignment in `before()`.
--   How to debug unresolved promise rejections:
+- VSCode extension examples: <https://github.com/microsoft/vscode-extension-samples>
+- Tests
+  - Use `function ()` and `async function ()` syntax for `describe()` and `it()` callbacks [instead of arrow functions.](https://mochajs.org/#arrow-functions)
+  - Do NOT include any `await` functions in `describe()` blocks directly (usage in `before`, `beforeEach`, `after`, `afterEach`, and `it` blocks is fine).
+    - `await` in `describe()` causes the framework to always evaluate the `describe` block and can cause issues with either tests not running or always running (if other tests are marked with `.only`)
+    - Tests that require a premade value from a Promise should initialize the value as a `let` and make the `await`ed assignment in `before()`.
+- How to debug unresolved promise rejections:
 
     1. Declare a global unhandledRejection handler.
+
         ```ts
         process.on('unhandledRejection', (e) => {
             getLogger().error(
@@ -138,6 +195,7 @@ You can also use these NPM tasks (see `npm run` for the full list):
             }
         })
         ```
+
     2. Put a breakpoint on it.
     3. Run all tests.
 
@@ -173,21 +231,26 @@ Tests will write logs to `./.test-reports/testLog.log`.
 
 To run a single test in VSCode, do any _one_ of the following:
 
--   Run the _Extension Tests (current file)_ launch-config.
-    -   Note: if you don't see this in the vscode debug menu, confirm that you opened the project
+- Run the _Extension Tests (current file)_ launch-config.
+  - Note: if you don't see this in the vscode debug menu, confirm that you opened the project
         [via the `amazon-q-vscode.code-workspace` project file](#run).
--   or... Use Mocha's [it.only()](https://mochajs.org/#exclusive-tests) or `describe.only()`.
--   or... Run in your terminal:
-    -   Unix/macOS/POSIX shell:
+- or... Use Mocha's [it.only()](https://mochajs.org/#exclusive-tests) or `describe.only()`.
+- or... Run in your terminal:
+  - Unix/macOS/POSIX shell:
+
         ```
         TEST_FILE=../core/src/test/foo.test.ts npm run test
         ```
-    -   Powershell:
+
+  - Powershell:
+
         ```
         $Env:TEST_FILE = "../core/src/test/foo.test.ts"; npm run test
         ```
--   or... To run all tests in a particular subdirectory, you can edit
+
+- or... To run all tests in a particular subdirectory, you can edit
     `src/test/index.ts:rootTestsPath` to point to a subdirectory:
+
     ```
     rootTestsPath: __dirname + '/shared/sam/debugger/'
     ```
@@ -196,13 +259,16 @@ To run a single test in VSCode, do any _one_ of the following:
 
 To run tests against a specific folder in VSCode, do any one of:
 
--   Add the TEST_DIR environment variable to one of the testing launch configs and run it
--   Run in your terminal
-    -   Unix/macOS/POSIX shell:
+- Add the TEST_DIR environment variable to one of the testing launch configs and run it
+- Run in your terminal
+  - Unix/macOS/POSIX shell:
+
         ```
         TEST_DIR=../core/src/test/foo npm run test
         ```
-    -   Powershell:
+
+  - Powershell:
+
         ```
         $Env:TEST_DIR = "../core/src/test/foo"; npm run test
         ```
@@ -237,10 +303,20 @@ To send a pull request:
 1. [Fork the repository](https://help.github.com/articles/fork-a-repo/).
 2. Modify the source; focus on the specific change you are contributing. If you also reformat all the code, it will be hard for us to focus on your change.
     - Read the [project guidelines](#guidelines), this is very important for non-trivial changes.
-3. Commit to your fork [using clear commit messages](#commit-messages).
+3. Commit to your fork [using clear commit messages](#commit-messages) and adhering to our [branching strategy](#branching-strategy).
 4. Update the [changelog](#changelog).
 5. [Create a pull request](https://help.github.com/articles/creating-a-pull-request/).
 6. Pay attention to any CI failures reported in the pull request.
+
+### Branching Strategy
+
+To maintain a clean and navigable history, we enforce a strict branching strategy. All branches should be prefixed based on their purpose:
+
+- `agent/`: For automated agentic pipeline improvements and autonomous agent contributions.
+- `feature/`: For new functionality or significant enhancements.
+- `hotfix/`: For urgent production bug fixes.
+
+Example: `feature/add-advanced-chat-filters` or `agent/optimize-context-fetching`.
 
 ### Changelog
 
@@ -261,29 +337,41 @@ user's point of view.
 
 > [!TIP]
 >
-> -   Describe the change in a way that is _meaningful to the customer_. If you can't describe the _customer impact_ then it probably shouldn't be in the changelog.
->     -   ✅ `Connection wizard sometimes shows the old (stale) connection`
->     -   ✅ `Faster startup after VSCode restarts`
->     -   ❌ `Remove the cache when the connection wizard is re-launched` (code internals are not relevant to customers)
->     -   ❌ `Update telemetry definitions` (not customer-impacting)
-> -   "Bug Fix" changes should describe the _problem being fixed_. Don't say "Fixed" in the
+> - Describe the change in a way that is _meaningful to the customer_. If you can't describe the _customer impact_ then it probably shouldn't be in the changelog.
+>   - ✅ `Connection wizard sometimes shows the old (stale) connection`
+>   - ✅ `Faster startup after VSCode restarts`
+>   - ❌ `Remove the cache when the connection wizard is re-launched` (code internals are not relevant to customers)
+>   - ❌ `Update telemetry definitions` (not customer-impacting)
+> - "Bug Fix" changes should describe the _problem being fixed_. Don't say "Fixed" in the
 >     description, it's redundant. Example:
->     -   ❌ `Fixed S3 bug which caused filenames to be uppercase`
->     -   ✅ `S3 filenames are always uppercase`
-> -   To update an _existing_ changelog item, just edit its `.changes/next-release/….json` file, you don't need to re-run `npm run newChange`.
-> -   If there are multiple unrelated changes, run `npm run newChange` for each change.
-> -   Include the feature that the change affects, Q, CodeWhisperer, etc.
+>   - ❌ `Fixed S3 bug which caused filenames to be uppercase`
+>   - ✅ `S3 filenames are always uppercase`
+> - To update an _existing_ changelog item, just edit its `.changes/next-release/….json` file, you don't need to re-run `npm run newChange`.
+> - If there are multiple unrelated changes, run `npm run newChange` for each change.
+> - Include the feature that the change affects, Q, CodeWhisperer, etc.
 
 ### Pull request title
 
-The title of your pull request must follow this format (checked by [lintcommit.js](.github/workflows/lintcommit.js)):
+The title of your pull request must follow the **Conventional Commits** specification (checked by [lintcommit.js](.github/workflows/lintcommit.js)):
 
--   format: `type: subject...`
--   type: must be a valid type (`build`, `ci`, `config`, `deps`, `docs`, `feat`, `fix`, `perf`, `refactor`, `style`, `telemetry`, `test`, `types`)
-    -   see [lintcommit.js](.github/workflows/lintcommit.js))
-    -   "chore" is intentionally rejected because it tends to be over-used.
-    -   user-facing changes should always choose "feat" or "fix", and include a [changelog](#changelog) item.
--   subject: must be <100 chars
+- format: `<type>[optional scope]: <description>`
+- type: must be one of the following:
+  - `feat`: A new feature
+  - `fix`: A bug fix
+  - `docs`: Documentation only changes
+  - `style`: Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)
+  - `refactor`: A code change that neither fixes a bug nor adds a feature
+  - `perf`: A code change that improves performance
+  - `test`: Adding missing tests or correcting existing tests
+  - `build`: Changes that affect the build system or external dependencies
+  - `ci`: Changes to our CI configuration files and scripts
+  - `config`: Changes to project configuration
+  - `deps`: Dependency updates
+  - `telemetry`: Changes related to telemetry tracking
+  - `types`: Changes to type definitions
+- "chore" is intentionally rejected.
+- User-facing changes should always use `feat` or `fix`, and include a [changelog](#changelog) item.
+- Subject must be <100 chars.
 
 ### Pull request description
 
@@ -305,18 +393,15 @@ artifact that will outlive most code.
 
 ### Commit messages
 
-Source control (Git) is our source-of-truth, not GitHub. However since most PRs
-are squash-merged, it's most important that your [pull request description](#pull-request-description)
-is well-formed so that the merged commit has the relevant info.
+We follow the [Conventional Commits](https://www.conventionalcommits.org/) specification for all commit messages. This allows for automated changelog generation and better project history.
 
-If you expect your commits to be preserved ("regular merge"), then follow [these
-guidelines](https://cbea.ms/git-commit/):
+If you expect your commits to be preserved ("regular merge"), then follow these guidelines:
 
--   Subject: single line up to 50-72 characters
-    -   Imperative voice ("Fix bug", not "Fixed"/"Fixes"/"Fixing").
-    -   [Formatted as `type: subject...`](#pull-request-title).
-        -   Helps humans _and_ scripts scan and omit ranges of the history at a glance.
--   Body: describe the change as a [Problem/Solution pair](#pull-request-description).
+- **Subject**: Single line up to 50-72 characters.
+  - Use the imperative voice ("feat: add logging" not "added logging").
+  - Follow the [PR title format](#pull-request-title).
+- **Body**: Describe the change as a [Problem/Solution pair](#pull-request-description).
+- **Footer**: Reference any related issues (e.g., `Refs: #123`).
 
 ## Tooling
 
@@ -334,22 +419,26 @@ The `aws.dev.forceDevMode` setting enables or disables "dev mode". Without this 
 
 ### Logging
 
--   Use `getLogger()` to log debugging messages, warnings, etc.
-    -   Example: `getLogger().error('topic: widget failed: %O', { foo: 'bar', baz: 42 })`
--   Log messages are written to the extension Output channel, which you can view in vscode by visiting the "Output" panel and selecting `Amazon Q Logs`.
--   Use the `aws.dev.logfile` setting to set the logfile path to a fixed location, so you can follow
+- Use `getLogger()` to log debugging messages, warnings, etc.
+  - Example: `getLogger().error('topic: widget failed: %O', { foo: 'bar', baz: 42 })`
+- Log messages are written to the extension Output channel, which you can view in vscode by visiting the "Output" panel and selecting `Amazon Q Logs`.
+- Use the `aws.dev.logfile` setting to set the logfile path to a fixed location, so you can follow
     and filter logs using shell tools like `tail` and `grep`.
-    -   Note: this always logs at **debug log-level** (though you can temporarily override that from the `Amazon Q Logs` UI).
-    -   Example `settings.json`:
+  - Note: this always logs at **debug log-level** (though you can temporarily override that from the `Amazon Q Logs` UI).
+  - Example `settings.json`:
+
         ```
         "aws.dev.logfile": "~/awstoolkit.log",
         ```
+
         then you can tail the logfile in your terminal:
+
         ```
         tail -F ~/awstoolkit.log
         ```
--   Use the Output panel to watch and filter logs (including telemetry) in VSCode.
-    -   Enter text in the Output panel filter box to show only log messages with that text.
+
+- Use the Output panel to watch and filter logs (including telemetry) in VSCode.
+  - Enter text in the Output panel filter box to show only log messages with that text.
 
 #### Enabling Debug Logs
 
@@ -371,8 +460,8 @@ If you need to report an issue attach these to give the most detailed informatio
 
 ### Telemetry
 
--   See [docs/telemetry.md](./docs/telemetry.md) for guidelines on developing telemetry in this project.
--   To watch telemetry events, use the `Amazon Q: View Logs` command (see [Logging](#logging) above) and enter "telemetry" in the filter box.
+- See [docs/telemetry.md](./docs/telemetry.md) for guidelines on developing telemetry in this project.
+- To watch telemetry events, use the `Amazon Q: View Logs` command (see [Logging](#logging) above) and enter "telemetry" in the filter box.
 
 ### Service Endpoints
 
@@ -420,42 +509,42 @@ Environment variables can be used to modify the behaviour of VSCode. The followi
 
 #### General OS
 
--   `HOME`: The home directory location for the current user in Linux and other Unix-like operating systems.
--   `SSH_AUTH_SOCK`: The location of a UNIX domain socket used by ssh-agent and SSH clients for agent-based authentication
--   `USERPROFILE`: The absolute path to the profile folder for the current user in Windows
--   `HOMEPATH`: The path to the home directory for the current user in Windows, without including the drive letter
--   `PROGRAMFILES/PROGRAMFILES(X86)`: The default installation directory for Windows
--   `WINDIR`: The location of the Windows installation directory
--   `PATH`: The set of directories where executable programs live
+- `HOME`: The home directory location for the current user in Linux and other Unix-like operating systems.
+- `SSH_AUTH_SOCK`: The location of a UNIX domain socket used by ssh-agent and SSH clients for agent-based authentication
+- `USERPROFILE`: The absolute path to the profile folder for the current user in Windows
+- `HOMEPATH`: The path to the home directory for the current user in Windows, without including the drive letter
+- `PROGRAMFILES/PROGRAMFILES(X86)`: The default installation directory for Windows
+- `WINDIR`: The location of the Windows installation directory
+- `PATH`: The set of directories where executable programs live
 
 #### Amazon Q
 
 The following are environment variable versions of the user `settings.json` overrides mentioned [here](#codewhisperer-settings). These will always override the toolkit defaults and those defined in `settings.json`.
 Unlike the user setting overrides, not all of these environment variables have to be set to make use of them.
 
--   `__CODEWHISPERER_REGION`: for aws.dev.codewhispererService.region
--   `__CODEWHISPERER_ENDPOINT`: for aws.dev.codewhispererService.endpoint
--   `__AMAZONQLSP_MANIFEST_URL`: for aws.dev.amazonqLsp.manifestUrl
--   `__AMAZONQLSP_SUPPORTED_VERSIONS`: for aws.dev.amazonqLsp.supportedVersions
--   `__AMAZONQLSP_ID`: for aws.dev.amazonqLsp.id
--   `__AMAZONQLSP_PATH`: for aws.dev.amazonqLsp.path
--   `__AMAZONQLSP_UI`: for aws.dev.amazonqLsp.ui
--   `__AMAZONQWORKSPACELSP_MANIFEST_URL`: for aws.dev.amazonqWorkspaceLsp.manifestUrl
--   `__AMAZONQWORKSPACELSP_SUPPORTED_VERSIONS`: for aws.dev.amazonqWorkspaceLsp.supportedVersions
--   `__AMAZONQWORKSPACELSP_ID`: for aws.dev.amazonqWorkspaceLsp.id
--   `__AMAZONQWORKSPACELSP_PATH`: for aws.dev.amazonqWorkspaceLsp.path
+- `__CODEWHISPERER_REGION`: for aws.dev.codewhispererService.region
+- `__CODEWHISPERER_ENDPOINT`: for aws.dev.codewhispererService.endpoint
+- `__AMAZONQLSP_MANIFEST_URL`: for aws.dev.amazonqLsp.manifestUrl
+- `__AMAZONQLSP_SUPPORTED_VERSIONS`: for aws.dev.amazonqLsp.supportedVersions
+- `__AMAZONQLSP_ID`: for aws.dev.amazonqLsp.id
+- `__AMAZONQLSP_PATH`: for aws.dev.amazonqLsp.path
+- `__AMAZONQLSP_UI`: for aws.dev.amazonqLsp.ui
+- `__AMAZONQWORKSPACELSP_MANIFEST_URL`: for aws.dev.amazonqWorkspaceLsp.manifestUrl
+- `__AMAZONQWORKSPACELSP_SUPPORTED_VERSIONS`: for aws.dev.amazonqWorkspaceLsp.supportedVersions
+- `__AMAZONQWORKSPACELSP_ID`: for aws.dev.amazonqWorkspaceLsp.id
+- `__AMAZONQWORKSPACELSP_PATH`: for aws.dev.amazonqWorkspaceLsp.path
 
 #### CI/Testing
 
--   `GITHUB_ACTION`: The name of the current GitHub Action workflow step that is running
--   `CODEBUILD_BUILD_ID`: The unique ID of the current CodeBuild build that is executing
--   `AWS_TOOLKIT_AUTOMATION`: If tests are currently being ran
--   `TEST_SSO_STARTURL`: The start url you want to use on E2E tests
--   `TEST_SSO_REGION`: The region for the start url you want to use on E2E tests
--   `AWS_TOOLKIT_TEST_NO_COLOR`: If the tests should include colour in their output
--   `DEVELOPMENT_PATH`: The path to the amazon-q-vscode project
--   `TEST_DIR` - The directory where the test runner should find the tests
--   `AMAZONQ_FEATUREDEV_ITERATION_TEST` - Controls whether to enable multiple iteration testing for Amazon Q feature development
+- `GITHUB_ACTION`: The name of the current GitHub Action workflow step that is running
+- `CODEBUILD_BUILD_ID`: The unique ID of the current CodeBuild build that is executing
+- `AWS_TOOLKIT_AUTOMATION`: If tests are currently being ran
+- `TEST_SSO_STARTURL`: The start url you want to use on E2E tests
+- `TEST_SSO_REGION`: The region for the start url you want to use on E2E tests
+- `AWS_TOOLKIT_TEST_NO_COLOR`: If the tests should include colour in their output
+- `DEVELOPMENT_PATH`: The path to the amazon-q-vscode project
+- `TEST_DIR` - The directory where the test runner should find the tests
+- `AMAZONQ_FEATUREDEV_ITERATION_TEST` - Controls whether to enable multiple iteration testing for Amazon Q feature development
 
 ### Custom Lint Rules
 
@@ -466,15 +555,15 @@ The package.json 'devDependencies' includes `eslint-plugin-aws-toolkits`. This i
 3. Register your rule in `plugins/eslint-plugin-aws-toolkits/index.ts`.
 4. Enable your rule in `.eslintrc`.
 
-Writing lint rules can be tricky if you are unfamiliar with the process. Use an AST viewer such as https://astexplorer.net/
+Writing lint rules can be tricky if you are unfamiliar with the process. Use an AST viewer such as <https://astexplorer.net/>
 
 ### Webview dev-server
 
 Webviews can be refreshed to show changes to `.vue` code when running in Debug mode. You do not have to
 reload the Debug VS Code window.
 
--   Use `Command Palette` -> `Reload Webviews`
--   Only the frontend `.vue` changes will be reflected. If changing any backend code you must restart Debug mode.
+- Use `Command Palette` -> `Reload Webviews`
+- Only the frontend `.vue` changes will be reflected. If changing any backend code you must restart Debug mode.
 
 This works by continuously building the final Vue webview files (`webpack watch`) and then serving them through a local server (`webpack serve`). Whenever a webview is loaded it will grab the latest build from the server.
 
@@ -505,29 +594,29 @@ But you can still use the latest vscode APIs, by checking the current running vs
 1. Check the vscode version: `semver.gte(vscode.version, '1.64.0')`
 2. Disable the feature if is too old. That could mean just skipping the code entirely, or showing a different UI.
 
-Full example: https://github.com/aws/amazon-q-vscode/blob/7cb97a2ef0a765862d21842693967070b0dcdd49/src/shared/credentials/defaultCredentialSelectionDataProvider.ts#L54-L76
+Full example: <https://github.com/aws/amazon-q-vscode/blob/7cb97a2ef0a765862d21842693967070b0dcdd49/src/shared/credentials/defaultCredentialSelectionDataProvider.ts#L54-L76>
 
 ## Preview Releases and Experiments
 
 There are several ways to make pre-production changes available on a "preview" or "experimental" basis:
 
--   **Experimental features:** settings defined in [aws.experiments](https://github.com/aws/amazon-q-vscode/blob/4dcee33931693380739eaa5d44e92fa4545a9666/package.json#L228-L241)
+- **Experimental features:** settings defined in [aws.experiments](https://github.com/aws/amazon-q-vscode/blob/4dcee33931693380739eaa5d44e92fa4545a9666/package.json#L228-L241)
     are available in the vscode settings UI so that customers **can discover and enable them.**
     This mechanism is intended for non-production features which are ready for
     early access / preview feedback from interested customers.
--   **Developer-only features:** the `aws.dev.forceDevMode` setting can be used as
+- **Developer-only features:** the `aws.dev.forceDevMode` setting can be used as
     a condition to enable features only for users who have
     `"aws.dev.forceDevMode": true` in their settings. These features are intended
     to be part of the mainline branch, but are _not_ presented to customers in the
     VSCode settings UI. Example: [EC2 commands were gated on `aws.isDevMode`](https://github.com/aws/amazon-q-vscode/blob/4dcee33931693380739eaa5d44e92fa4545a9666/package.json#L1115-L1126)
     so the functionality could be merged to mainline while it was under development.
--   **Beta artifacts:** For a "private beta" launch, `src/dev/beta.ts` contains
+- **Beta artifacts:** For a "private beta" launch, `src/dev/beta.ts` contains
     logic to check a hardcoded, stable URL serving the latest `.vsix` build for
     the private beta. The hardcoded URL defined in [`dev/config.ts:betaUrl`](https://github.com/aws/amazon-q-vscode/blob/d9c27234c0732b021d07e184a865213d6efde8ec/src/dev/config.ts#L9)
     also forces the Toolkit to declare version `99.0` (since "private beta" has no semver and to
     avoid unwanted auto-updating from VSCode marketplace). Beta builds of the Toolkit automatically
     query the URL once per session per day.
-    -   Beta users may want to run the `Extensions: Disable Auto Update for All Extensions` command
+  - Beta users may want to run the `Extensions: Disable Auto Update for All Extensions` command
         [disable VSCode's auto-update feature](https://code.visualstudio.com/docs/editor/extension-marketplace#_extension-autoupdate),
         to avoid ovewriting the beta Toolkit with the marketplace release.
 
@@ -535,7 +624,7 @@ There are several ways to make pre-production changes available on a "preview" o
 
 This project has adopted the [Amazon Open Source Code of Conduct](https://aws.github.io/code-of-conduct).
 For more information see the [Code of Conduct FAQ](https://aws.github.io/code-of-conduct-faq) or contact
-opensource-codeofconduct@amazon.com with any additional questions or comments.
+<opensource-codeofconduct@amazon.com> with any additional questions or comments.
 
 ## Security issues
 
