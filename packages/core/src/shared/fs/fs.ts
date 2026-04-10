@@ -120,25 +120,39 @@ export class FileSystem {
     }
 
     /**
-     * The {@link vscode.workspace.fs} implementation does not explicitly provide an append method
-     * so we must do it ourselves (this implementation is inefficient).
+     * The {@link vscode.workspace.fs} implementation does not explicitly provide an append method.
+     *
+     * We use `nodefs.appendFile` for local files to avoid reading the entire file into memory,
+     * which is much more efficient for large files.
      */
     async appendFile(path: Uri | string, content: Uint8Array | string): Promise<void> {
-        path = toUri(path)
+        const uri = toUri(path)
+        const newContent = this.#toBytes(content)
 
-        const currentContent: Uint8Array = (await this.existsFile(path))
-            ? await this.readFileBytes(path)
+        if (!this.isWeb && uri.scheme === 'file') {
+            const errHandler = createPermissionsErrorHandler(this.isWeb, uri, '*w*')
+            const parentDir = _path.dirname(uri.fsPath)
+
+            // Node appendFile does NOT create parent folders by default, unlike VS Code FS writeFile()
+            await nodefs.mkdir(parentDir, { recursive: true }).catch(async (err) => {
+                await createPermissionsErrorHandler(this.isWeb, toUri(parentDir), '*wx')(err)
+            })
+
+            return nodefs.appendFile(uri.fsPath, newContent).then(undefined, errHandler)
+        }
+
+        const currentContent: Uint8Array = (await this.existsFile(uri))
+            ? await this.readFileBytes(uri)
             : new Uint8Array(0)
         const currentLength = currentContent.length
 
-        const newContent = this.#toBytes(content)
         const newLength = newContent.length
 
         const finalContent = new Uint8Array(currentLength + newLength)
         finalContent.set(currentContent)
         finalContent.set(newContent, currentLength)
 
-        return this.writeFile(path, finalContent)
+        return this.writeFile(uri, finalContent)
     }
     /**
      * Checks if file or folder exists.
