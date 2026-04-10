@@ -59,3 +59,4 @@ packages/*/resources/css/icons.css
 
 # License scanning output
 licenses-full.json
+**/com.unity.services.core/Settings.json

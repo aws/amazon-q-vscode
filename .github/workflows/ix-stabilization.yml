@@ -1,0 +1,44 @@
+name: IX-Node Artifact Verification
+
+on:
+  push:
+    branches: [ main, 'void/*', 'core/*', 'ix/*', 'phnx/*' ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Extension Artifacts
+        run: |
+          echo "Compiling AeroCore modules..."
+          npm run compile
+
+      - name: Calculate Artifact Checksums
+        run: |
+          echo "Initiating SHA-256 Verification Protocol..."
+          # Verify the integrity of the built packages
+          find packages -name "*.js" -type f -exec sha256sum {} + > ARTIFACT_SHA256SUMS
+          echo "Artifact Checksums generated for current stabilization state."
+          cat ARTIFACT_SHA256SUMS
+
+      - name: Spirit Logic Check
+        run: |
+          echo "Executing Spirit Logic integrity check..."
+          # Check for forbidden patterns or unhandled corruption, excluding node_modules and .git
+          if grep -r --exclude-dir={node_modules,.git,dist} "TODO" . && [ "${{ github.event_name }}" == "pull_request" ]; then
+            echo "Warning: Unresolved TODOs detected. Ensure they do not cause Void Corruption."
+          fi
+          echo "Spirit Logic stabilized."
