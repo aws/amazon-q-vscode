@@ -63,7 +63,7 @@ export function isStepFunctionsRole(role: IamRole): boolean {
         return statements.some((statement) => {
             const service = statement.Principal?.Service
             return Array.isArray(service)
-                ? service.includes(stepFunctionsSevicePrincipal)
+                ? service.some((s) => s === stepFunctionsSevicePrincipal)
                 : service === stepFunctionsSevicePrincipal
         })
     } catch {
