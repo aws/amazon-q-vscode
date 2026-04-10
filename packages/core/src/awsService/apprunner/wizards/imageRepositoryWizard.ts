@@ -119,7 +119,7 @@ function createImagePrompter(
             return 'tag cannot be empty'
         }
 
-        const privateRegExp = /[0-9]+\.dkr\.ecr\.[a-zA-z0-9\-]+\.amazonaws\.com/
+        const privateRegExp = /[0-9]+\.dkr\.ecr\.[a-zA-Z0-9\-]+\.amazonaws\.com/
 
         if (options.noPublicMessage && userInputParts[0].startsWith(publicEcr)) {
             return options.noPublicMessage
