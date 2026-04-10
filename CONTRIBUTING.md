@@ -1,12 +1,59 @@
-# Contributing to Amazon Q for VS Code
+# CONTRIBUTING TO THE VOID: MILEHIGH-WORLD LLC Architectural Standard
 
-Thanks for taking the time to help improve Amazon Q for VS Code! We greatly value
-feedback and contributions from the community.
+Welcome, Architect. By contributing to this repository, you are participating in the stabilization of the AeroCore and the expansion of the ENNEAvERSE. We follow a strict technical-narrative hybrid standard to ensure system resilience and thematic alignment.
 
-Reviewing this document will maximize your success in working with the
-codebase and sending pull requests.
+## 1. Branching Strategy: The Tiered Frequency
 
-## Getting Started
+All work must be performed in branches using the following prefixes. Merges to main require "IX-Node Stabilization" (successful CI pass and artifact verification).
+
+*   `core/`: Fundamental infrastructure, gRPC services, and AeroCore logic.
+*   `void/`: Narrative state machines, gameplay loops, and world-building.
+*   `ix/`: Experimental nodes, AI-agentic workflows, and stabilization testing.
+*   `phnx/`: Security hardening, resilience, and PHNX3NT protocols.
+
+## 2. Commit Standards: Semantic Reality
+
+We use a specialized version of Conventional Commits. Every commit must be scoped to its architectural plane:
+
+*   `void`: Narrative systems or ENNEAvERSE logic updates.
+*   `unity`: Unity 6 engine implementation (specifically targeting `/void-engine`).
+*   `aerocore`: Backend services, infrastructure, and core gRPC.
+*   `ix-node`: Data integrity, parity logic, or Spirit Logic adjustments.
+
+**Format:** `type(scope): description`
+**Example:** `feat(void): implement Reality Shift cooldown logic for Reverie`
+
+## 3. Core Principle: Conservation of Nine
+
+All system manifests, data arrays, and configuration blocks must adhere to the Conservation of Nine.
+
+*   **Logical Constraint:** Structures should be designed in multiples of nine.
+*   **Parity Rule:** If a system requires $N+1$ modules where $N$ is a multiple of nine, the $(N+1)^{th}$ module must function as a parity bit or stabilization anchor for the preceding nine.
+
+## 4. Unity 6 Integration
+
+All C# assets, physics loops, and Unity-specific materials reside in the `/void-engine` directory.
+
+*   **Privacy:** `com.unity.services.core/Settings.json` must remain in `.gitignore`.
+*   **Architecture:** Separation of concerns between the Web-UI (`/src`) and the Game Engine (`/void-engine`) is mandatory.
+
+## 5. Versioning: Semantic Void (SVV)
+
+We use the pattern: `[Major].[Minor].[Patch]-void.[IX-Node]`
+*   `void.[n]`: Represents the stabilization iteration of the current release candidate.
+
+## 6. PR Requirements
+
+*   **SHA-256 Verification:** All build artifacts must pass the verification workflow.
+*   **Spirit Logic Check:** Ensure no "Void Corruption" (memory leaks or unhandled exceptions in the game loop) is introduced.
+*   **Documentation:** Update the "Stabilization Protocol" in the component's README if the architecture changes.
+
+---
+*Document controlled by MILEHIGH-WORLD LLC. Unauthorized deviation from the IX-Standard results in immediate branch decommissioning.*
+
+---
+
+# Getting Started (Technical)
 
 This project is set up as a typescript monorepo. The documentation throughout this project
 is referring to the subprojects [`packages/amazonq/`](./packages/amazonq/) and [`packages/core/`](./packages/core/).

@@ -1,10 +1,10 @@
-# Amazon Q for Visual Studio Code
+# Amazon Q for Visual Studio Code: Into the Void Framework
 
 [![Marketplace Version](https://img.shields.io/vscode-marketplace/v/AmazonWebServices.amazon-q-vscode.svg) ![Marketplace Downloads](https://img.shields.io/vscode-marketplace/d/AmazonWebServices.amazon-q-vscode.svg)](https://marketplace.visualstudio.com/items?itemName=AmazonWebServices.amazon-q-vscode)
 
 <!-- [![Coverage](https://img.shields.io/codecov/c/github/aws/amazon-q-vscode/master.svg)](https://codecov.io/gh/aws/amazon-q-vscode/branch/main) -->
 
-Amazon Q for VS Code is a [VS Code extension](https://marketplace.visualstudio.com/items?itemName=AmazonWebServices.amazon-q-vscode) for connecting your IDE to [Amazon Q](https://aws.amazon.com/q/developer/) and leveraging generative AI to accelerate your software development.
+This repository is a core component of the **MILEHIGH-WORLD LLC: Into the Void Framework**. It provides the foundational infrastructure for connecting VS Code to [Amazon Q](https://aws.amazon.com/q/developer/) while integrating with the AeroCore and PHNX3NT resilience protocols.
 
 -   Code faster with inline code suggestions as you type
 -   Chat with [Amazon Q](https://aws.amazon.com/q/developer/) to generate code, explain code, and get answers to questions about software development
@@ -24,10 +24,11 @@ any positive contribution. See [CONTRIBUTING.md](CONTRIBUTING.md) to get started
 -   [User Guide](https://docs.aws.amazon.com/console/toolkit-for-vscode/welcome)
 -   General info about [AWS SDKs and Tools](https://docs.aws.amazon.com/sdkref/latest/guide/overview.html)
 
-## Feedback
+## Feedback & Support
 
 We want your feedback!
 
+-   **Architectural Guidance:** For questions regarding IX-Node stabilization or the ENNEAvERSE, contact [milehigh.wrld@gmail.com](mailto:milehigh.wrld@gmail.com).
 -   Upvote 👍 [feature requests](https://github.com/aws/amazon-q-vscode/issues?q=is%3Aissue+is%3Aopen+label%3Afeature-request+sort%3Areactions-%2B1-desc)
 -   [Ask a question](https://github.com/aws/amazon-q-vscode/issues/new?labels=guidance&template=guidance_request.md)
 -   [Request a new feature](https://github.com/aws/amazon-q-vscode/issues/new?labels=feature-request&template=feature_request.md)
