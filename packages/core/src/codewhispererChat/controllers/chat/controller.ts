@@ -1037,17 +1037,7 @@ export class ChatController {
             session.localHistoryHydrated = true
         }
         await this.resolveContextCommandPayload(triggerPayload, session)
-        triggerPayload.useRelevantDocuments = triggerPayload.context.some(
-            (context) => typeof context !== 'string' && context.command === '@workspace'
-        )
-        if (triggerPayload.useRelevantDocuments) {
-            triggerPayload.message = triggerPayload.message.replace(/@workspace/, '')
-            if (false) {
-            } else {
-                this.messenger.sendOpenSettingsMessage(triggerID, tabID)
-                return
-            }
-        }
+        triggerPayload.useRelevantDocuments = false
 
         triggerPayload.contextLengths.userInputContextLength = triggerPayload.message.length
         triggerPayload.contextLengths.focusFileContextLength = triggerPayload.fileText.length
