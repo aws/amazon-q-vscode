@@ -51,7 +51,7 @@ export const TabTypeDataMap: Record<Exclude<TabType, 'welcome'>, TabTypeData> = 
         title: 'Q - Code Transformation',
         placeholder: 'Open a new tab to chat with Q',
         welcome:
-            'Welcome to Code Transformation!\n\n> **ℹ️ AWS Transform custom now available for Java upgrades. Agentic AI that handles version upgrades, SDK migration, and more, and improves with every execution. [Learn more](https://aws.amazon.com/transform/custom/)**',
+            'Welcome to Code Transformation!\n\n> **ℹ️ AWS Transform custom now available for Java upgrades. Agentic AI that handles version upgrades, SDK migration, and more, and improves with every execution. [Learn more](https://aws.amazon.com/transform/custom/)**\n\n> **🆕 See the [AWS Transform VS Code plugin](https://marketplace.visualstudio.com/items?itemName=AmazonWebServices.aws-transform-plugin) and [AWS Transform Kiro Power](https://github.com/kirodotdev/powers/tree/main/aws-transform).**',
     },
     review: {
         title: 'Q - Review',
