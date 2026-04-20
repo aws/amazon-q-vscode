@@ -155,7 +155,7 @@
                 </template>
                 <template v-if="app === 'TOOLKIT'">
                     <div class="imported-logins" v-if="importedLogins.length > 0">
-                        <div class="header bottomMargin">Connect with an existing account:</div>
+                        <div class="header bottomMargin">Connect with an account:</div>
                         <div v-for="(importedLogin, index) in importedLogins" :key="index">
                             <SelectableItem
                                 @toggle="toggleItemSelection"
