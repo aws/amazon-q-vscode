@@ -33,7 +33,12 @@ export async function activate(context: vscode.ExtensionContext, authStateFn: ()
         const controller = new NotificationsController(
             panelNode,
             async () => await getRuleContext(context, await authStateFn()),
-            DevSettings.instance.isDevMode() ? new DevFetcher() : new RemoteFetcher()
+            DevSettings.instance.isDevMode()
+                ? new DevFetcher()
+                : new RemoteFetcher(
+                      'https://idetoolkits-hostedfiles.amazonaws.com/Notifications/integ/VSCode/startup/1.x.json',
+                      'https://idetoolkits-hostedfiles.amazonaws.com/Notifications/integ/VSCode/emergency/1.x.json'
+                  )
         )
 
         await controller.pollForStartUp()
