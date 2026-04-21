@@ -9,6 +9,9 @@ const description = {
     showCodeWithReferences: Boolean,
     importRecommendationForInlineCodeSuggestions: Boolean, // eslint-disable-line id-length
     shareContentWithAWS: Boolean,
+    workspaceIndexMaxSize: Number,
+    workspaceIndexMaxFileSize: Number,
+    workspaceIndexIgnoreFilePatterns: ArrayConstructor(String),
     ignoredSecurityIssues: ArrayConstructor(String),
 }
 
@@ -33,6 +36,20 @@ export class CodeWhispererSettings extends fromExtensionManifest('amazonQ', desc
     }
     public getIgnoredSecurityIssues(): string[] {
         return this.get('ignoredSecurityIssues', [])
+    }
+
+    public getMaxIndexSize(): number {
+        // minimal 1MB
+        return Math.max(this.get('workspaceIndexMaxSize', 2048), 1)
+    }
+
+    public getMaxIndexFileSize(): number {
+        // minimal 1MB
+        return Math.max(this.get('workspaceIndexMaxFileSize', 10), 1)
+    }
+
+    public getIndexIgnoreFilePatterns(): string[] {
+        return this.get('workspaceIndexIgnoreFilePatterns', [])
     }
 
     public async addToIgnoredSecurityIssuesList(issueTitle: string) {

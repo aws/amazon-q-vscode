@@ -523,6 +523,13 @@ function getConfigSection(section: ConfigSection) {
                 {
                     customization: undefinedIfEmpty(getSelectedCustomization().arn),
                     optOutTelemetry: getOptOutPreference() === 'OPTOUT',
+                    projectContext: {
+                        localIndexing: {
+                            ignoreFilePatterns: CodeWhispererSettings.instance.getIndexIgnoreFilePatterns(),
+                            maxFileSizeMB: CodeWhispererSettings.instance.getMaxIndexFileSize(),
+                            maxIndexSizeMB: CodeWhispererSettings.instance.getMaxIndexSize(),
+                        },
+                    },
                 },
             ]
         case 'aws.codeWhisperer':

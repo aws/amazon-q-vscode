@@ -28,6 +28,9 @@ export const amazonqSettings = {
     "amazonQ.showCodeWithReferences": {},
     "amazonQ.importRecommendationForInlineCodeSuggestions": {},
     "amazonQ.shareContentWithAWS": {},
+    "amazonQ.workspaceIndexMaxSize": {},
+    "amazonQ.workspaceIndexMaxFileSize": {},
+    "amazonQ.workspaceIndexIgnoreFilePatterns": {},
     "amazonQ.ignoredSecurityIssues": {},
     "amazonQ.proxy.certificateAuthority": {},
     "amazonQ.proxy.enableProxyAndCertificateAutoDiscovery": {}
