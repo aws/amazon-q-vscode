@@ -25,7 +25,6 @@ const warnOnce = onceChanged((s: string, url: string) => {
 })
 
 // TODO: Refactor all scopes to a central file with minimal dependencies.
-export const scopesCodeCatalyst = ['codecatalyst:read_write']
 export const scopesSsoAccountAccess = ['sso:account:access']
 /** These are the non-chat scopes for CW. */
 export const scopesCodeWhispererCore = ['codewhisperer:completions', 'codewhisperer:analysis']
@@ -67,9 +66,6 @@ export const isSsoConnection = (conn?: Connection, type: SsoType = 'any'): conn 
 export const isAnySsoConnection = (conn?: Connection): conn is SsoConnection => isSsoConnection(conn, 'any')
 export const isIdcSsoConnection = (conn?: Connection): conn is SsoConnection => isSsoConnection(conn, 'idc')
 export const isBuilderIdConnection = (conn?: Connection): conn is SsoConnection => isSsoConnection(conn, 'builderId')
-
-export const isValidCodeCatalystConnection = (conn?: Connection): conn is SsoConnection =>
-    isSsoConnection(conn) && hasScopes(conn, scopesCodeCatalyst)
 
 export const areCredentialsEqual = (creds1: any, creds2: any): boolean => {
     if (!creds1 || !creds2) {

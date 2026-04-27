@@ -8,7 +8,7 @@ import assert from 'assert'
 import { RuleEngine, getRuleContext } from '../../notifications/rules'
 import { DisplayIf, ToolkitNotification, RuleContext } from '../../notifications/types'
 import globals from '../../shared/extensionGlobals'
-import { Connection, scopesCodeCatalyst } from '../../auth/connection'
+import { Connection } from '../../auth/connection'
 import { getOperatingSystem } from '../../shared/telemetry/util'
 import { getAuthFormIdsFromConnection } from '../../auth/utils'
 import { amazonQScopes } from '../../codewhisperer'
@@ -516,11 +516,6 @@ describe('Notifications getRuleContext()', function () {
                 {
                     type: 'sso',
                     scopes: amazonQScopes,
-                    startUrl: builderIdStartUrl,
-                },
-                {
-                    type: 'sso',
-                    scopes: scopesCodeCatalyst,
                     startUrl: builderIdStartUrl,
                 },
                 {

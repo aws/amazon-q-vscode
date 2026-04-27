@@ -4,7 +4,7 @@
  */
 import assert from 'assert'
 import { BuilderIdKind, ExtensionUse, SsoKind, hasBuilderId, hasIamCredentials, hasSso } from '../../auth/utils'
-import { Connection, SsoConnection, scopesCodeCatalyst } from '../../auth/connection'
+import { Connection, SsoConnection } from '../../auth/connection'
 import { builderIdConnection, iamConnection, ssoConnection } from './testUtil'
 import { amazonQScopes } from '../../codewhisperer/util/authUtil'
 import globals from '../../shared/extensionGlobals'
@@ -73,18 +73,7 @@ describe('connection exists funcs', function () {
         scopes: amazonQScopes,
         label: 'codeWhispererBuilderId',
     }
-    const ccBuilderIdConnection: SsoConnection = {
-        ...builderIdConnection,
-        scopes: scopesCodeCatalyst,
-        label: 'codeCatalystBuilderId',
-    }
-    const ssoConnections: Connection[] = [
-        ssoConnection,
-        builderIdConnection,
-        cwIdcConnection,
-        cwBuilderIdConnection,
-        ccBuilderIdConnection,
-    ]
+    const ssoConnections: Connection[] = [ssoConnection, builderIdConnection, cwIdcConnection, cwBuilderIdConnection]
     const allConnections = [iamConnection, ...ssoConnections]
 
     describe('ssoExists()', function () {
@@ -125,16 +114,7 @@ describe('connection exists funcs', function () {
             return { ...c, kind: 'codewhisperer' }
         })
 
-        const ccBuilderIdCases: BuilderIdTestCase[] = [
-            { connections: [ccBuilderIdConnection], expected: true },
-            { connections: allConnections, expected: true },
-            { connections: [], expected: false },
-            { connections: allConnections.filter((c) => c !== ccBuilderIdConnection), expected: false },
-        ].map((c) => {
-            return { ...c, kind: 'codecatalyst' }
-        })
-
-        const allCases = [...cwBuilderIdCases, ...ccBuilderIdCases]
+        const allCases = [...cwBuilderIdCases]
 
         for (const args of allCases) {
             it(`builderIdExists() returns '${args.expected}' when kind '${args.kind}' given [${args.connections
