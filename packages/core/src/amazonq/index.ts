@@ -15,7 +15,6 @@ export {
     walkthroughInlineSuggestionsExample,
 } from './onboardingPage/walkthrough'
 export { api } from './extApi'
-export { AmazonQChatViewProvider } from './webview/webView'
 export { amazonQHelpUrl } from '../shared/constants'
 export * as webviewConstants from './webview/ui/texts/constants'
 export * as webviewTabConstants from './webview/ui/tabs/constants'
@@ -31,9 +30,8 @@ export {
     computeDiff,
 } from './commons/diff'
 export { AuthFollowUpType, AuthMessageDataMap } from './auth/model'
-export { ChatItemType, referenceLogText } from './commons/model'
+export { ChatItemType, CodeReference, referenceLogText } from './commons/model'
 export { ExtensionMessage } from '../amazonq/webview/ui/commands'
-export { CodeReference } from '../codewhispererChat/view/connector/connector'
 export { extractAuthFollowUp } from './util/authUtils'
 export * as secondaryAuth from '../auth/secondaryAuth'
 export * as authConnection from '../auth/connection'

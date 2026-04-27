@@ -4,7 +4,7 @@
  */
 
 import { window } from 'vscode'
-import { CodeReference } from '../connector/connector'
+import { CodeReference } from '../../../amazonq/commons/model'
 import { ReferenceLogViewProvider } from '../../../codewhisperer/service/referenceLogViewProvider'
 
 export class ReferenceLogController {

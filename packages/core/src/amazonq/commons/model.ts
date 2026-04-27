@@ -4,7 +4,16 @@
  */
 
 import { LicenseUtil } from '../../codewhisperer/util/licenseUtil'
-import { CodeReference } from '../../codewhispererChat/view/connector/connector'
+
+export interface CodeReference {
+    licenseName?: string
+    repository?: string
+    url?: string
+    recommendationContentSpan?: {
+        start?: number
+        end?: number
+    }
+}
 
 // Currently importing ChatItemType in Mynah UI from the vscode side causes an error
 // TODO remove this once the import stops failing
