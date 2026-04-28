@@ -13,7 +13,6 @@ import { NotificationType, OnReceiveType, ToolkitNotification, getNotificationTe
 import { ToolkitError } from '../shared/errors'
 import { isAmazonQ } from '../shared/extensionUtilities'
 import { getLogger } from '../shared/logger/logger'
-import { registerToolView } from '../awsexplorer/activationShared'
 import { readonlyDocument } from '../shared/utilities/textDocumentUtilities'
 import { openUrl } from '../shared/utilities/vsCodeUtils'
 import { telemetry } from '../shared/telemetry/telemetry'
@@ -309,13 +308,22 @@ export class NotificationsNode implements TreeNode {
     }
 
     registerView(context: vscode.ExtensionContext) {
-        this.view = registerToolView(
-            {
-                nodes: [this],
-                view: isAmazonQ() ? 'aws.amazonq.notifications' : 'aws.toolkit.notifications',
-                refreshCommands: [(provider: ResourceTreeDataProvider) => this.registerProvider(provider)],
+        const nodes: TreeNode[] = [this]
+        const viewId = isAmazonQ() ? 'aws.amazonq.notifications' : 'aws.toolkit.notifications'
+        const treeDataProvider = new ResourceTreeDataProvider({
+            getChildren: async () => {
+                const children: TreeNode[] = []
+                for (const node of nodes) {
+                    if (node.getChildren) {
+                        children.push(...(await node.getChildren()))
+                    }
+                }
+                return children
             },
-            context
-        )
+        })
+        this.registerProvider(treeDataProvider)
+        const treeView = vscode.window.createTreeView(viewId, { treeDataProvider })
+        context.subscriptions.push(treeView)
+        this.view = treeView
     }
 }

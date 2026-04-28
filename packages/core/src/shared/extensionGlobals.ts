@@ -5,7 +5,6 @@
 
 import { ExtensionContext, LogOutputChannel, OutputChannel } from 'vscode'
 import { LoginManager } from '../auth/deprecated/loginManager'
-import { AwsResourceManager } from '../dynamicResources/awsResourceManager'
 import { AWSClientBuilder } from './awsClientBuilder'
 import { AwsContext } from './awsContext'
 import { AwsContextCommands } from './awsContextCommands'
@@ -203,7 +202,6 @@ export interface ToolkitGlobals {
     templateRegistry: Promise<CloudFormationTemplateRegistry>
     schemaService: SchemaService
     codelensRootRegistry: CodelensRootRegistry
-    resourceManager: AwsResourceManager
     uriHandler: UriHandler
     /** An id to differentiate the current machine being run on. Can help distinguish a remote from a local machine.  */
     machineId: string
