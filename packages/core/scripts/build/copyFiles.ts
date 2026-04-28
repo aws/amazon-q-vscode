@@ -26,7 +26,6 @@ interface CopyTask {
 }
 
 const tasks: CopyTask[] = [
-    { target: path.join('src', 'templates') },
     { target: path.join('src', 'test', 'shared', 'cloudformation', 'yaml') },
     { target: path.join('src', 'testFixtures') },
     { target: 'src/auth/sso/vue' },
@@ -35,19 +34,6 @@ const tasks: CopyTask[] = [
     {
         target: path.join('../../node_modules', 'vue', 'dist', 'vue.global.prod.js'),
         destination: path.join('libs', 'vue.min.js'),
-    },
-    // SSM
-    {
-        target: path.join('../../node_modules', 'aws-ssm-document-language-service', 'dist', 'server.js'),
-        destination: path.join('src', 'ssmDocument', 'ssm', 'ssmServer.js'),
-    },
-    {
-        target: path.join('../../node_modules', 'aws-ssm-document-language-service', 'dist', 'server.js.LICENSE.txt'),
-        destination: path.join('src', 'ssmDocument', 'ssm', 'ssmServer.js.LICENSE.txt'),
-    },
-    {
-        target: path.join('../../node_modules', 'aws-ssm-document-language-service', 'dist', 'server.js.map'),
-        destination: path.join('src', 'ssmDocument', 'ssm', 'server.js.map'),
     },
 ]
 

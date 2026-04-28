@@ -7,21 +7,10 @@ import * as vscode from 'vscode'
 import * as path from 'path'
 import { CredentialsStore } from '../auth/credentials/store'
 import { ExtContext } from '../shared/extensions'
-import { SamCliContext } from '../shared/sam/cli/samCliContext'
-import {
-    minSamCliVersion,
-    minSamCliVersionForGoSupport,
-    SamCliValidator,
-    SamCliValidatorResult,
-    SamCliVersionValidation,
-    SamCliVersionValidatorResult,
-} from '../shared/sam/cli/samCliValidator'
 import { DefaultTelemetryService } from '../shared/telemetry/telemetryService'
-import { ChildProcessResult } from '../shared/utilities/processUtils'
 import { UriHandler } from '../shared/vscode/uriHandler'
 import { FakeTelemetryPublisher } from './fake/fakeTelemetryService'
 import { MockOutputChannel } from './mockOutputChannel'
-import { FakeChildProcessResult, TestSamCliProcessInvoker } from './shared/sam/cli/testSamCliProcessInvoker'
 import { createTestWorkspaceFolder } from './testUtil'
 import { FakeAwsContext } from './utilities/fakeAwsContext'
 import { createTestRegionProvider } from './shared/regions/testUtil'
@@ -119,14 +108,6 @@ export class FakeExtensionContext implements vscode.ExtensionContext {
     public static async getFakeExtContext(): Promise<ExtContext> {
         const ctx = await FakeExtensionContext.create()
         const awsContext = new FakeAwsContext()
-        const samCliContext = () => {
-            return {
-                invoker: new TestSamCliProcessInvoker((_spawnOptions, _args: any[]): ChildProcessResult => {
-                    return new FakeChildProcessResult({})
-                }),
-                validator: new FakeSamCliValidator(minSamCliVersionForGoSupport),
-            } as SamCliContext
-        }
         const regionProvider = createTestRegionProvider({ awsContext })
         const outputChannel = new MockOutputChannel()
         const fakeTelemetryPublisher = new FakeTelemetryPublisher()
@@ -135,7 +116,6 @@ export class FakeExtensionContext implements vscode.ExtensionContext {
         return {
             extensionContext: ctx,
             awsContext,
-            samCliContext,
             regionProvider,
             outputChannel,
             telemetryService,
@@ -189,25 +169,5 @@ export class FakeSecretStorage implements vscode.SecretStorage {
     public async delete(key: string): Promise<void> {
         delete this.storage[key]
         this._onDidChange.fire({ key })
-    }
-}
-
-export class FakeSamCliValidator implements SamCliValidator {
-    private readonly version: string
-    public constructor(version: string = minSamCliVersion) {
-        this.version = version
-    }
-    public async detectValidSamCli(): Promise<SamCliValidatorResult> {
-        return {
-            samCliFound: true,
-            versionValidation: {
-                version: this.version,
-                validation: SamCliVersionValidation.Valid,
-            },
-        }
-    }
-
-    public async getVersionValidatorResult(): Promise<SamCliVersionValidatorResult> {
-        return { validation: SamCliVersionValidation.VersionNotParseable }
     }
 }

@@ -4,7 +4,6 @@
  */
 
 import * as vscode from 'vscode'
-import * as codecatalyst from './clients/codecatalystClient'
 import { getLogger } from './logger/logger'
 import {
     cast,
@@ -774,7 +773,6 @@ const devSettings = {
     renderDebugDetails: Boolean,
     devenvTimeoutMs: Number,
     endpoints: Record(String, String),
-    codecatalystService: Record(String, String),
     codewhispererService: Record(String, String),
     amazonqLsp: Record(String, String),
     amazonqWorkspaceLsp: Record(String, String),
@@ -790,7 +788,6 @@ type AwsDevSetting = keyof ResolvedDevSettings
 
 type ServiceClients = keyof ServiceTypeMap
 interface ServiceTypeMap {
-    codecatalystService: codecatalyst.CodeCatalystConfig
     amazonqLsp: object // type is provided inside of amazon q
     amazonqWorkspaceLsp: object // type is provided inside of amazon q
     codewhispererService: CodeWhispererConfig

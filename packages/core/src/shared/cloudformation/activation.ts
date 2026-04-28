@@ -14,7 +14,6 @@ import { createStarterTemplateFile } from './cloudformation'
 import * as CloudFormation from './cloudformation'
 import { Commands } from '../vscode/commands2'
 import globals from '../extensionGlobals'
-import { SamCliSettings } from '../sam/cli/samCliSettings'
 import { Timeout } from '../utilities/timeoutUtils'
 
 /**
@@ -85,8 +84,7 @@ function setTemplateRegistryInGlobals(registry: CloudFormationTemplateRegistry) 
             }
 
             // prevent eager load if codelenses are off
-            const config = SamCliSettings.instance
-            if (config.get('enableCodeLenses', false) || isToolkitActive()) {
+            if (isToolkitActive()) {
                 return await asyncRegistry.getInstance()
             }
 

@@ -39,8 +39,6 @@ import {
 import { registerAssetsHttpsFileSystem } from '../../amazonq/webview/assets/assetsHandler'
 import { VueWebview, VueWebviewPanel } from '../../webviews/main'
 import { AmazonQLoginWebview } from './vue/amazonq/backend_amazonq'
-import { ToolkitLoginWebview } from './vue/toolkit/backend_toolkit'
-import { CodeCatalystAuthenticationProvider } from '../../codecatalyst/auth'
 import { telemetry } from '../../shared/telemetry/telemetry'
 import { AuthSources } from './util'
 import { AuthFlowStates } from './vue/types'
@@ -51,7 +49,7 @@ import { ExtensionUse } from '../../auth/utils'
 export class CommonAuthViewProvider implements WebviewViewProvider {
     public readonly viewType: string
 
-    webView: VueWebviewPanel<ToolkitLoginWebview | AmazonQLoginWebview> | undefined
+    webView: VueWebviewPanel<AmazonQLoginWebview> | undefined
     source: string = ''
 
     constructor(
@@ -62,13 +60,7 @@ export class CommonAuthViewProvider implements WebviewViewProvider {
         this.viewType = `aws.${app}.AmazonCommonAuth`
 
         registerAssetsHttpsFileSystem(extensionContext)
-        if (app === 'toolkit') {
-            // Create panel bindings using our class
-            const Panel = VueWebview.compilePanel(ToolkitLoginWebview)
-            // `context` is `ExtContext` provided on activation
-            this.webView = new Panel(extensionContext, CodeCatalystAuthenticationProvider.fromContext(extensionContext))
-            this.source = ToolkitLoginWebview.sourcePath
-        } else if (app === 'amazonq') {
+        if (app === 'amazonq') {
             const Panel = VueWebview.compilePanel(AmazonQLoginWebview)
             this.webView = new Panel(extensionContext)
             this.source = AmazonQLoginWebview.sourcePath
