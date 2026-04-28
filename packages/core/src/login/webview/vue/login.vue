@@ -105,8 +105,8 @@
                             </svg>
                         </span>
                         <span class="maintenance-banner__text">
-                            Amazon Q Developer is now in maintenance mode. New accounts are no longer available.
-                            Existing users can still sign in below.
+                            Amazon Q Developer IDE plugins will reach end of support on April 30, 2027. New accounts are
+                            no longer available but existing users can still sign in below.
                             <a
                                 class="maintenance-banner__link"
                                 href="https://aws.amazon.com/q/developer/"
