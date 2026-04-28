@@ -105,6 +105,7 @@
                             </svg>
                         </span>
                         <span class="maintenance-banner__text">
+                            <!-- TODO: finalize banner text and Learn more URL with product team -->
                             Amazon Q Developer IDE plugins will reach end of support on April 30, 2027. New accounts
                             will no longer be available starting 5/15, but existing users can still sign-in below.
                             <a
@@ -748,7 +749,7 @@ export default defineComponent({
             void client.emitUiClick('auth_helpLink')
         },
         handleLearnMoreClick() {
-            void client.emitUiClick('auth_helpLink')
+            void client.emitUiClick('auth_maintenanceLearnMore')
         },
         async preselectLoginOption() {
             // Select the first available option for Login
