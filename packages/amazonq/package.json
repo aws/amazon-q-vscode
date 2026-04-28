@@ -159,24 +159,6 @@
                     "default": true,
                     "scope": "application"
                 },
-                "amazonQ.workspaceIndex": {
-                    "type": "boolean",
-                    "markdownDescription": "%AWS.configuration.description.amazonq.workspaceIndex%",
-                    "default": false,
-                    "scope": "application"
-                },
-                "amazonQ.workspaceIndexWorkerThreads": {
-                    "type": "number",
-                    "markdownDescription": "%AWS.configuration.description.amazonq.workspaceIndexWorkerThreads%",
-                    "default": 0,
-                    "scope": "application"
-                },
-                "amazonQ.workspaceIndexUseGPU": {
-                    "type": "boolean",
-                    "markdownDescription": "%AWS.configuration.description.amazonq.workspaceIndexUseGPU%",
-                    "default": false,
-                    "scope": "application"
-                },
                 "amazonQ.workspaceIndexMaxSize": {
                     "type": "number",
                     "markdownDescription": "%AWS.configuration.description.amazonq.workspaceIndexMaxSize%",
@@ -187,12 +169,6 @@
                     "type": "number",
                     "markdownDescription": "%AWS.configuration.description.amazonq.workspaceIndexMaxFileSize%",
                     "default": 10,
-                    "scope": "application"
-                },
-                "amazonQ.workspaceIndexCacheDirPath": {
-                    "type": "string",
-                    "markdownDescription": "%AWS.configuration.description.amazonq.workspaceIndexCacheDirPath%",
-                    "default": null,
                     "scope": "application"
                 },
                 "amazonQ.workspaceIndexIgnoreFilePatterns": {

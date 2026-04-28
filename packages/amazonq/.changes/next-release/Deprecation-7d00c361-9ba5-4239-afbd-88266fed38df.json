@@ -1,0 +1,4 @@
+{
+	"type": "Deprecation",
+	"description": "deprecate: remove @workspace indexing functionality"
+}
