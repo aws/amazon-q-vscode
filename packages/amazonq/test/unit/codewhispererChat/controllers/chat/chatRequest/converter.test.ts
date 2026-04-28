@@ -4,12 +4,7 @@
  */
 
 import assert from 'assert'
-import {
-    ChatTriggerType,
-    filePathSizeLimit,
-    TriggerPayload,
-    triggerPayloadToChatRequest,
-} from 'aws-core-vscode/codewhispererChat'
+import { ChatTriggerType, TriggerPayload, triggerPayloadToChatRequest } from 'aws-core-vscode/codewhispererChat'
 
 describe('triggerPayloadToChatRequest', () => {
     const mockBasicPayload: TriggerPayload = {
@@ -185,7 +180,7 @@ describe('triggerPayloadToChatRequest', () => {
         assert.strictEqual(
             result.conversationState.currentMessage?.userInputMessage?.userInputMessageContext?.editorState?.document
                 ?.relativeFilePath?.length,
-            filePathSizeLimit
+            4_000
         )
     })
 

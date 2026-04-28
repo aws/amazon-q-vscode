@@ -3,11 +3,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Webview, Uri } from 'vscode'
+import { Uri } from 'vscode'
 import { MessagePublisher } from '../../messages/messagePublisher'
-import { MessageListener } from '../../messages/messageListener'
 import { TabType } from '../ui/storages/tabsStorage'
-import { getLogger } from '../../../shared/logger/logger'
 import { amazonqMark } from '../../../shared/performance/marks'
 import { telemetry } from '../../../shared/telemetry/telemetry'
 import { AmazonQChatMessageDuration } from '../../messages/chatMessageDuration'
@@ -18,15 +16,6 @@ import { DefaultAmazonQAppInitContext } from '../../apps/initContext'
 import { AmazonQPromptSettings } from '../../../shared/settings'
 
 const qChatModuleName = 'amazonqChat'
-
-export function dispatchWebViewMessagesToApps(
-    webview: Webview,
-    webViewToAppsMessagePublishers: Map<TabType, MessagePublisher<any>>
-) {
-    webview.onDidReceiveMessage((msg) => {
-        handleWebviewEvent(msg, webViewToAppsMessagePublishers)
-    })
-}
 
 export function isLegacyEvent(value: string): boolean {
     return (
@@ -128,12 +117,4 @@ export function handleWebviewEvent(msg: any, webViewToAppsMessagePublishers: Map
         return
     }
     appMessagePublisher.publish(msg)
-}
-
-export function dispatchAppsMessagesToWebView(webView: Webview, appsMessageListener: MessageListener<any>) {
-    appsMessageListener.onMessage((msg) => {
-        webView.postMessage(JSON.stringify(msg)).then(undefined, (e) => {
-            getLogger().error('webView.postMessage failed: %s', (e as Error).message)
-        })
-    })
 }
