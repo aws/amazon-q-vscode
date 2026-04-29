@@ -109,7 +109,10 @@
                             Amazon Q Developer IDE plugins will reach end of support on April 30, 2027. New accounts
                             will no longer be available starting May 15, 2026, but existing users can still sign-in
                             below.
-                            <a class="maintenance-banner__link" href="https://kiro.dev/" @click="handleLearnMoreClick"
+                            <a
+                                class="maintenance-banner__link"
+                                href="https://aws.amazon.com/blogs/devops/amazon-q-developer-end-of-support-announcement/"
+                                @click="handleLearnMoreClick"
                                 >Learn more</a
                             >
                         </span>
