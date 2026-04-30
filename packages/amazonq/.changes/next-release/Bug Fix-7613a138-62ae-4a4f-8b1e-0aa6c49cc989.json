@@ -1,4 +1,0 @@
-{
-	"type": "Bug Fix",
-	"description": "fix: properly send folder context when calling @folder"
-}

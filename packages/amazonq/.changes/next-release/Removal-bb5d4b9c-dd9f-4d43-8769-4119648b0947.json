@@ -1,4 +1,0 @@
-{
-	"type": "Removal",
-	"description": "Internal infrastructure update: repository separation and architectural migration. No user-facing changes or breaking API modifications."
-}
