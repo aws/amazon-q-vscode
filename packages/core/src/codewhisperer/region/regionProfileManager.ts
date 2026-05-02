@@ -287,6 +287,26 @@ export class RegionProfileManager {
             return
         }
 
+        // Validate the persisted profile still exists before blindly restoring it.
+        // Without this check, stale SSO tokens + a persisted profile ARN that is no
+        // longer valid causes "We couldn't load your Q developer profiles" errors
+        try {
+            const availableProfiles = await this.getProfiles()
+            const stillValid = availableProfiles.some((p) => p.arn === previousSelected.arn)
+            if (!stillValid) {
+                RegionProfileManager.logger.warn(
+                    `Persisted profile '${previousSelected.name}' (${previousSelected.region}) is no longer available, clearing stale state`
+                )
+                await this.invalidateProfile(previousSelected.arn)
+                return
+            }
+        } catch (e) {
+            // If we can't list profiles (e.g. stale token), don't blindly restore —
+            // let the user re-authenticate and re-select instead of showing a broken state.
+            RegionProfileManager.logger.warn(`Failed to validate persisted profile on restore: ${(e as Error).message}`)
+            return
+        }
+
         await this.switchRegionProfile(previousSelected, 'reload')
     }
 
