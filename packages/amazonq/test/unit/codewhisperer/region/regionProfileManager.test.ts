@@ -183,7 +183,7 @@ describe('RegionProfileManager', function () {
         })
 
         it(`restoreRegionProfile`, async function () {
-            sinon.stub(sut, 'listRegionProfile').resolves([profileFoo])
+            sinon.stub(sut, 'getProfiles').resolves([profileFoo])
             await setupConnection('idc')
             const conn = authUtil.conn
             if (!conn) {
@@ -198,6 +198,67 @@ describe('RegionProfileManager', function () {
             await sut.restoreRegionProfile(conn)
 
             assert.strictEqual(sut.activeRegionProfile, profileFoo)
+        })
+
+        it(`restoreRegionProfile clears stale profile when no longer available`, async function () {
+            sinon.stub(sut, 'getProfiles').resolves([
+                {
+                    name: 'other-profile',
+                    region: 'us-east-1',
+                    arn: 'other arn',
+                    description: 'other',
+                },
+            ])
+            await setupConnection('idc')
+            const conn = authUtil.conn
+            if (!conn) {
+                fail('connection should not be undefined')
+            }
+
+            const state = {} as any
+            state[conn.id] = profileFoo
+
+            await globals.globalState.update('aws.amazonq.regionProfiles', state)
+
+            await sut.restoreRegionProfile(conn)
+
+            // Profile should NOT be restored since it's no longer available
+            assert.strictEqual(sut.activeRegionProfile, undefined)
+
+            // Persisted state should be cleared
+            const persistedState = globals.globalState.tryGet<{ [label: string]: RegionProfile }>(
+                'aws.amazonq.regionProfiles',
+                Object,
+                {}
+            )
+            assert.strictEqual(persistedState[conn.id], undefined)
+        })
+
+        it(`restoreRegionProfile skips restore when profile listing fails`, async function () {
+            sinon.stub(sut, 'getProfiles').rejects(new Error('stale SSO token'))
+            await setupConnection('idc')
+            const conn = authUtil.conn
+            if (!conn) {
+                fail('connection should not be undefined')
+            }
+
+            const state = {} as any
+            state[conn.id] = profileFoo
+
+            await globals.globalState.update('aws.amazonq.regionProfiles', state)
+
+            await sut.restoreRegionProfile(conn)
+
+            // Profile should NOT be restored when we can't validate
+            assert.strictEqual(sut.activeRegionProfile, undefined)
+
+            // Persisted state should be preserved (not cleared) — profile might still be valid on next restart
+            const persistedState = globals.globalState.tryGet<{ [label: string]: RegionProfile }>(
+                'aws.amazonq.regionProfiles',
+                Object,
+                {}
+            )
+            assert.deepStrictEqual(persistedState[conn.id], profileFoo)
         })
     })
 
