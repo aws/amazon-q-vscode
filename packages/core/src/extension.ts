@@ -21,7 +21,6 @@ import { getIdeProperties, aboutExtension, getDocUrl, isSageMaker } from './shar
 import { logAndShowError, logAndShowWebviewError } from './shared/utilities/logAndShowUtils'
 import { telemetry } from './shared/telemetry/telemetry'
 import { openUrl } from './shared/utilities/vsCodeUtils'
-import { activateViewsShared } from './awsexplorer/activationShared'
 import fs from './shared/fs/fs'
 import * as errors from './shared/errors'
 import { activate as activateLogger } from './shared/logger/activation'
@@ -39,7 +38,6 @@ import { getMachineId, isAutomation } from './shared/vscode/env'
 import { registerCommandErrorHandler } from './shared/vscode/commands2'
 import { registerWebviewErrorHandler } from './webviews/server'
 import { ExtContext, VSCODE_EXTENSION_ID } from './shared/extensions'
-import { getSamCliContext } from './shared/sam/cli/samCliContext'
 import { UriHandler } from './shared/vscode/uriHandler'
 import { disableAwsSdkWarning } from './shared/awsClientBuilder'
 import { FileResourceFetcher } from './shared/resourcefetcher/fileResourceFetcher'
@@ -155,15 +153,12 @@ export async function activateCommon(
     const extContext: ExtContext = {
         extensionContext: context,
         awsContext: globals.awsContext,
-        samCliContext: getSamCliContext,
         regionProvider: globals.regionProvider,
         outputChannel: globals.outputChannel,
         telemetryService: globals.telemetry,
         uriHandler: globals.uriHandler,
         credentialsStore: globals.loginManager.store,
     }
-
-    await activateViewsShared(extContext.extensionContext)
 
     return extContext
 }

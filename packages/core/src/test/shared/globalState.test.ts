@@ -6,7 +6,6 @@
 import assert from 'assert'
 import { GlobalState } from '../../shared/globalState'
 import { FakeMemento } from '../fakeExtensionContext'
-import * as redshift from '../../awsService/redshift/models/models'
 
 describe('GlobalState', function () {
     let globalState: GlobalState
@@ -109,65 +108,6 @@ describe('GlobalState', function () {
 
         assert.deepStrictEqual(globalState.keys(), [])
         assert.deepStrictEqual(globalState.values(), [])
-    })
-
-    describe('redshift state', function () {
-        const testArn1 = 'arn:foo/bar/baz/1'
-        const testArn2 = 'arn:foo/bar/baz/2'
-
-        const fakeCxn1: redshift.ConnectionParams = {
-            connectionType: redshift.ConnectionType.SecretsManager,
-            database: 'fake-db',
-            warehouseIdentifier: 'warhouse-id-1',
-            warehouseType: redshift.RedshiftWarehouseType.SERVERLESS,
-            region: {
-                id: 'us-east-2',
-                name: 'region name',
-            },
-            password: 'password-1',
-            secret: 'secret 1',
-        }
-        const fakeCxn2: redshift.ConnectionParams = {
-            ...fakeCxn1,
-            password: 'pw 2',
-            secret: 'secret 2',
-            warehouseIdentifier: 'wh-id-2',
-            database: 'fake db 2',
-        }
-
-        it('get/set connection state and special DELETE_CONNECTION value', async () => {
-            await globalState.saveRedshiftConnection(testArn1, 'DELETE_CONNECTION')
-            await globalState.saveRedshiftConnection(testArn2, undefined)
-            assert.deepStrictEqual(globalState.getRedshiftConnection(testArn1), 'DELETE_CONNECTION')
-            assert.deepStrictEqual(globalState.getRedshiftConnection(testArn2), undefined)
-            await globalState.saveRedshiftConnection(testArn1, fakeCxn1)
-            await globalState.saveRedshiftConnection(testArn2, fakeCxn2)
-            assert.deepStrictEqual(globalState.getRedshiftConnection(testArn1), fakeCxn1)
-            assert.deepStrictEqual(globalState.getRedshiftConnection(testArn2), fakeCxn2)
-        })
-
-        it('validation', async () => {
-            await globalState.saveRedshiftConnection(testArn1, 'foo' as any)
-            await globalState.saveRedshiftConnection(testArn2, 99 as any)
-
-            // Assert that bad state was set.
-            assert.deepStrictEqual(globalState.get('aws.redshift.connections'), {
-                [testArn1]: 'foo',
-                [testArn2]: 99,
-            })
-
-            // Bad state is logged and returns undefined.
-            assert.deepStrictEqual(globalState.getRedshiftConnection(testArn1), undefined)
-            assert.deepStrictEqual(globalState.getRedshiftConnection(testArn2), undefined)
-
-            await globalState.saveRedshiftConnection(testArn2, fakeCxn2)
-            assert.deepStrictEqual(globalState.getRedshiftConnection(testArn2), fakeCxn2)
-            // Stored state is now "partially bad".
-            assert.deepStrictEqual(globalState.get('aws.redshift.connections'), {
-                [testArn1]: 'foo',
-                [testArn2]: fakeCxn2,
-            })
-        })
     })
 
     describe('SSO sessions', function () {

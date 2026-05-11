@@ -10,7 +10,6 @@ import { DefaultAmazonQAppInitContext } from 'aws-core-vscode/amazonq'
 export function activateAgents() {
     const appInitContext = DefaultAmazonQAppInitContext.instance
 
-    amazonqNode.cwChatAppInit(appInitContext)
     amazonqNode.gumbyChatAppInit(appInitContext)
     scanChatAppInit(appInitContext)
 }

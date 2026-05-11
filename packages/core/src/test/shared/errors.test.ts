@@ -26,7 +26,6 @@ import { UnauthorizedException } from '@aws-sdk/client-sso'
 import { AWSError } from 'aws-sdk'
 import { AccessDeniedException } from '@aws-sdk/client-sso-oidc'
 import { OidcClient } from '../../auth/sso/clients'
-import { SamCliError } from '../../shared/sam/cli/samCliInvokerUtils'
 import { DiskCacheError } from '../../shared/utilities/cacheUtils'
 
 class TestAwsError extends Error implements AWSError {
@@ -97,7 +96,7 @@ export function fakeErrorChain(err1?: Error, err2?: Error, err3?: Error, err4?: 
         } catch (e2) {
             try {
                 // new Error('error 3')
-                const e = err3 ? err3 : new SamCliError('sam error', { cause: e2 as Error })
+                const e = err3 ? err3 : new ToolkitError('sam error', { cause: e2 as Error })
                 trySetCause(e, e2)
                 throw e
             } catch (e3) {

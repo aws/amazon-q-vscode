@@ -36,7 +36,6 @@ import {
     isIdcSsoConnection,
     isBuilderIdConnection,
     isIamConnection,
-    isValidCodeCatalystConnection,
     hasScopes,
     scopesSsoAccountAccess,
     isSsoConnection,
@@ -650,7 +649,7 @@ export async function hasIamCredentials(
     return (await allConnections()).some(isIamConnection)
 }
 
-export type SsoKind = 'any' | 'codewhisperer' | 'codecatalyst'
+export type SsoKind = 'any' | 'codewhisperer'
 
 /**
  * Returns true if an Identity Center SSO connection exists.
@@ -676,18 +675,13 @@ export async function findSsoConnections(
                 return isIdcSsoConnection(conn) && isValidCodeWhispererCoreConnection(conn)
             }
             break
-        case 'codecatalyst':
-            predicate = (conn?: Connection) => {
-                return isIdcSsoConnection(conn) && isValidCodeCatalystConnection(conn)
-            }
-            break
         case 'any':
             predicate = isIdcSsoConnection
     }
     return (await allConnections()).filter(predicate).filter(isIdcSsoConnection)
 }
 
-export type BuilderIdKind = 'any' | 'codewhisperer' | 'codecatalyst'
+export type BuilderIdKind = 'any' | 'codewhisperer'
 
 /**
  * Returns true if a Builder ID connection exists.
@@ -711,11 +705,6 @@ async function findBuilderIdConnections(
         case 'codewhisperer':
             predicate = (conn?: Connection) => {
                 return isBuilderIdConnection(conn) && isValidCodeWhispererCoreConnection(conn)
-            }
-            break
-        case 'codecatalyst':
-            predicate = (conn?: Connection) => {
-                return isBuilderIdConnection(conn) && isValidCodeCatalystConnection(conn)
             }
             break
         case 'any':
@@ -865,9 +854,6 @@ export function getAuthFormIdsFromConnection(conn?: Connection): AuthFormId[] {
         return ['unknown']
     }
 
-    if (isValidCodeCatalystConnection(conn)) {
-        authIds.push(`${connType}CodeCatalyst`)
-    }
     if (isValidAmazonQConnection(conn)) {
         authIds.push(`${connType}CodeWhisperer`)
     }

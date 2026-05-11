@@ -8,7 +8,6 @@ import { AwsContext } from './awsContext'
 import { RegionProvider } from './regions/regionProvider'
 import { TelemetryService } from './telemetry/telemetryService'
 import { CredentialsStore } from '../auth/credentials/store'
-import { SamCliContext } from './sam/cli/samCliContext'
 import { UriHandler } from './vscode/uriHandler'
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -35,7 +34,6 @@ export const vscodeExtensionMinVersion = {
 export interface ExtContext {
     extensionContext: vscode.ExtensionContext
     awsContext: AwsContext
-    samCliContext: () => SamCliContext
     regionProvider: RegionProvider
     outputChannel: vscode.OutputChannel
     telemetryService: TelemetryService

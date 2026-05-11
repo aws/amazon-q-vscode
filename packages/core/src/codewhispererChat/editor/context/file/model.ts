@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { MatchPolicy } from '../../../clients/chat/v0/model'
+import { MatchPolicy } from '../../../controllers/chat/model'
 
 export interface FileContext {
     readonly fileText: string | undefined

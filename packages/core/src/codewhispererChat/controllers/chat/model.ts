@@ -5,10 +5,9 @@
 
 import * as vscode from 'vscode'
 import { AdditionalContentEntry, RelevantTextDocument, UserIntent } from '@amzn/codewhisperer-streaming'
-import { MatchPolicy, CodeQuery } from '../../clients/chat/v0/model'
 import { Selection } from 'vscode'
 import { TabOpenType } from '../../../amazonq/webview/ui/storages/tabsStorage'
-import { CodeReference } from '../../view/connector/connector'
+import { CodeReference } from '../../../amazonq/commons/model'
 import { Customization } from '../../../codewhisperer/client/codewhispereruserclient'
 import { QuickActionCommand } from '@aws/mynah-ui'
 import { Message } from '../../../shared/db/chatDb/util'
@@ -258,4 +257,36 @@ export interface InsertedCode {
     readonly startPosition: vscode.Position
     readonly endPosition: vscode.Position
     readonly originalString: string
+}
+
+export type ContextKey = string
+export type ContextKeys = ContextKey[]
+
+export interface MatchPolicy {
+    readonly should?: ContextKeys
+    readonly must?: ContextKeys
+    readonly mustNot?: ContextKeys
+}
+
+export type SimpleName = string
+export type SimpleNames = SimpleName[]
+
+export type Name = string
+export type SymbolIdentifier = Name[]
+export type SourceIdentifier = Name[]
+
+export interface FullyQualifiedName {
+    readonly source?: SourceIdentifier
+    readonly symbol?: SymbolIdentifier
+}
+
+export type FullyQualifiedNamesUsages = FullyQualifiedName[]
+
+export interface FullyQualifiedNamesDeclarationsUsages {
+    readonly used?: FullyQualifiedNamesUsages
+}
+
+export interface CodeQuery {
+    readonly simpleNames?: SimpleNames
+    readonly fullyQualifiedNames?: FullyQualifiedNamesDeclarationsUsages
 }

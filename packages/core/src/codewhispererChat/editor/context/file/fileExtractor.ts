@@ -5,7 +5,7 @@
 
 import { TextDocument } from 'vscode'
 import { extractLanguageNameFromFile, extractAdditionalLanguageMatchPoliciesFromFile } from './languages'
-import { MatchPolicy } from '../../../clients/chat/v0/model'
+import { MatchPolicy } from '../../../controllers/chat/model'
 import { readImports } from './importReader'
 import { FileContext } from './model'
 

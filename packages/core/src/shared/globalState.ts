@@ -5,7 +5,6 @@
 
 import * as vscode from 'vscode'
 import { getLogger } from './logger/logger'
-import * as redshift from '../awsService/redshift/models/models'
 import { TypeConstructor, cast } from './utilities/typeConstructors'
 
 type ToolId = 'codecatalyst' | 'codewhisperer' | 'testId' | 'smus'
@@ -194,51 +193,6 @@ export class GlobalState implements vscode.Memento {
 
     clear() {
         return Promise.allSettled(this.memento.keys().map((k) => this.memento.update(k, undefined)))
-    }
-
-    /**
-     * Stores Redshift connection info for the specified warehouse ARN.
-     *
-     * TODO: this never garbage-collects old connections, so the state will grow forever...
-     *
-     * @param warehouseArn redshift warehouse ARN
-     * @param cxnInfo Connection info. Value is 'DELETE_CONNECTION' when the connection is deleted
-     * but the explorer node is not refreshed yet.
-     */
-    async saveRedshiftConnection(
-        warehouseArn: string,
-        cxnInfo: redshift.ConnectionParams | undefined | 'DELETE_CONNECTION'
-    ) {
-        const allCxns = this.tryGet('aws.redshift.connections', Object, {})
-        await this.update('aws.redshift.connections', {
-            ...allCxns,
-            [warehouseArn]: cxnInfo,
-        })
-    }
-
-    /**
-     * Get the Redshift connection info for the specified warehouse ARN.
-     *
-     * @param warehouseArn redshift warehouse ARN
-     * @returns Connection info. Value is 'DELETE_CONNECTION' when the connection is deleted but the
-     * explorer node is not refreshed yet.
-     */
-    getRedshiftConnection(warehouseArn: string): redshift.ConnectionParams | undefined | 'DELETE_CONNECTION' {
-        const all = this.tryGet<Record<string, redshift.ConnectionParams | 'DELETE_CONNECTION'>>(
-            'aws.redshift.connections',
-            (v) => {
-                if (v !== undefined && typeof v !== 'object') {
-                    throw new Error()
-                }
-                const item = (v as any)?.[warehouseArn]
-                // Requested item must be object or 'DELETE_CONNECTION'.
-                if (item !== undefined && typeof item !== 'object' && item !== 'DELETE_CONNECTION') {
-                    throw new Error()
-                }
-                return v
-            }
-        )
-        return all?.[warehouseArn]
     }
 
     /**

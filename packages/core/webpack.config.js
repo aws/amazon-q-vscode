@@ -21,10 +21,7 @@ module.exports = (env, argv) => {
 
     const config = {
         ...baseConfig,
-        entry: {
-            'src/stepFunctions/asl/aslServer': './src/stepFunctions/asl/aslServer.ts',
-            'src/awsService/sagemaker/detached-server/server': './src/awsService/sagemaker/detached-server/server.ts',
-        },
+        entry: {},
     }
 
     const vueConfig = {

@@ -16,7 +16,6 @@ import {
     AwsConnection,
     Connection,
     hasScopes,
-    scopesCodeCatalyst,
     scopesCodeWhispererChat,
     scopesSsoAccountAccess,
     SsoConnection,
@@ -96,8 +95,6 @@ export abstract class CommonAuthWebview extends VueWebview {
                 if (e instanceof ToolkitError && e.code === 'NotOnboarded') {
                     /**
                      * Connection is fine, they just skipped onboarding so not an actual error.
-                     *
-                     * The error comes from user cancelling prompt by {@link CodeCatalystAuthenticationProvider.promptOnboarding()}
                      */
                     return
                 }
@@ -281,9 +278,6 @@ export abstract class CommonAuthWebview extends VueWebview {
         const authEnabledFeatures: AuthEnabledFeatures[] = []
         if (hasScopes(conn.scopes!, scopesCodeWhispererChat)) {
             authEnabledFeatures.push('codewhisperer')
-        }
-        if (hasScopes(conn.scopes!, scopesCodeCatalyst)) {
-            authEnabledFeatures.push('codecatalyst')
         }
         if (hasScopes(conn.scopes!, scopesSsoAccountAccess)) {
             authEnabledFeatures.push('awsExplorer')

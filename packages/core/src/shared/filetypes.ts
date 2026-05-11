@@ -6,7 +6,13 @@
 import * as vscode from 'vscode'
 import * as path from 'path'
 import * as constants from '../shared/constants'
-import * as aslFormats from '../stepFunctions/constants/aslFormats'
+// ASL format constants (previously from stepFunctions/constants/aslFormats, which was removed)
+const aslFormats = {
+    JSON_ASL: 'asl',
+    YAML_ASL: 'asl-yaml',
+    JSON_TYPE: 'json',
+    YAML_TYPE: 'yaml',
+} as const
 import * as fsutil from '../shared/filesystemUtilities'
 import fs from '../shared/fs/fs'
 import globals from './extensionGlobals'

@@ -23,17 +23,10 @@ import { CredentialsProviderManager } from './providers/credentialsProviderManag
 import { asString, CredentialsId, CredentialsProvider, fromString } from './providers/credentials'
 import { keyedDebounce, once } from '../shared/utilities/functionUtils'
 import { CredentialsSettings } from './credentials/utils'
-import {
-    extractDataFromSection,
-    getSectionOrThrow,
-    loadSharedCredentialsSections,
-} from './credentials/sharedCredentials'
-import { getCodeCatalystDevEnvId } from '../shared/vscode/env'
 import { getEnvironmentSpecificMemento } from '../shared/utilities/mementos'
 import { SsoCredentialsProvider } from './providers/ssoCredentialsProvider'
 import { AsyncCollection, toCollection } from '../shared/utilities/asyncCollection'
 import { join, toStream } from '../shared/utilities/collectionUtils'
-import { getConfigFilename } from './credentials/sharedCredentialsFile'
 import { SharedCredentialsKeys, StaticProfile, StaticProfileKeyErrorMessage } from './credentials/types'
 import { TempCredentialProvider } from './providers/tempCredentialsProvider'
 import {
@@ -49,15 +42,11 @@ import {
     SsoProfile,
     StatefulConnection,
     StoredProfile,
-    scopesCodeCatalyst,
-    createBuilderIdProfile,
-    createSsoProfile,
     hasScopes,
     loadIamProfilesIntoStore,
     loadLinkedProfilesIntoStore,
     scopesSsoAccountAccess,
     AwsConnection,
-    scopesCodeWhispererCore,
     ProfileNotFoundError,
     isSsoConnection,
 } from './connection'
@@ -586,7 +575,7 @@ export class Auth implements AuthService, ConnectionManager {
             }
 
             // XXX: never drop tokens in a dev environment, unless you are Amazon Q!
-            if (getCodeCatalystDevEnvId() === undefined || isAmazonQ()) {
+            if (isAmazonQ()) {
                 // TODO: Require invalidateConnection() to require a reason and then pass it in to the following instead
                 await provider.invalidate('explicitInvalidation')
             }
@@ -746,54 +735,8 @@ export class Auth implements AuthService, ConnectionManager {
         return credentialsProvider
     }
 
-    // XXX: always read from the same location in a dev environment
-    // This detection is fuzzy if an sso-session section exists for any other reason.
-    private detectSsoSessionNameForCodeCatalyst = once((): string => {
-        try {
-            const configFile = getConfigFilename()
-            // `require('fs')` is workaround for web mode:
-            const contents: string = require('fs').readFileSync(configFile, 'utf-8')
-            const identifier = contents.match(/\[sso\-session (.*)\]/)?.[1]
-            if (!identifier) {
-                throw new ToolkitError('No sso-session name found in ~/.aws/config', { code: 'NoSsoSessionName' })
-            }
-
-            return identifier
-        } catch (err) {
-            const identifier = 'codecatalyst'
-            getLogger().warn(`auth: unable to get an sso session name, defaulting to "${identifier}": %s`, err)
-            return identifier
-        }
-    })
-
-    private createCodeCatalystDevEnvProfile = async (): Promise<[id: string, profile: SsoProfile]> => {
-        const identifier = this.detectSsoSessionNameForCodeCatalyst()
-
-        const { sections } = await loadSharedCredentialsSections()
-        const { sso_region: region, sso_start_url: startUrl } = extractDataFromSection(
-            getSectionOrThrow(sections, identifier, 'sso-session')
-        )
-
-        if ([region, startUrl].some((prop) => typeof prop !== 'string')) {
-            throw new ToolkitError('sso-session data missing in ~/.aws/config', { code: 'NoSsoSession' })
-        }
-
-        return startUrl === builderIdStartUrl
-            ? [identifier, createBuilderIdProfile(scopesCodeCatalyst)]
-            : [identifier, createSsoProfile(startUrl, region, scopesCodeCatalyst)]
-    }
-
     private getSsoTokenProvider(id: Connection['id'], profile: StoredProfile<SsoProfile>) {
-        // XXX: Use the token created by Dev Environments if and only if the profile is strictly
-        // for CodeCatalyst, as indicated by its set of scopes. A consequence of these semantics is
-        // that any profile will be coerced to use this token if that profile exclusively contains
-        // CodeCatalyst scopes. Similarly, if additional scopes are added to a profile, the profile
-        // no longer matches this condition.
-        const shouldUseSoftwareStatement =
-            getCodeCatalystDevEnvId() !== undefined &&
-            profile.scopes?.every((scope) => scopesCodeCatalyst.includes(scope))
-
-        const tokenIdentifier = shouldUseSoftwareStatement ? this.detectSsoSessionNameForCodeCatalyst() : id
+        const tokenIdentifier = id
 
         return this.createSsoTokenProvider(
             {
@@ -1011,33 +954,6 @@ export class Auth implements AuthService, ConnectionManager {
                 }
             })
         )
-
-        // When opening a Dev Environment, use the environment token if no other CodeCatalyst
-        // credential is in use. This token only has CC permissions currently!
-        if (!isAmazonQ() && getCodeCatalystDevEnvId() !== undefined) {
-            const connections = await this.listConnections()
-            const shouldInsertDevEnvCredential = !connections.some(
-                (c) => c.type === 'sso' && hasScopes(c, scopesCodeCatalyst) && !hasScopes(c, scopesCodeWhispererCore)
-            )
-
-            if (shouldInsertDevEnvCredential) {
-                // Insert a profile based on the `~/.aws/config` sso-session:
-                try {
-                    // After creating a CodeCatalyst Dev Environment profile based on sso-session,
-                    // we discard the actual key, and we insert the profile with an arbitrary key.
-                    // The cache key for any strictly-CodeCatalyst profile is overriden to the
-                    // sso-session identifier on read. If the coerce-on-read semantics ever become
-                    // an issue, it should be possible to use the actual key here However, this
-                    // would require deleting existing profiles to avoid inserting duplicates.
-                    const [_dangerousDiscardActualKey, devEnvProfile] = await this.createCodeCatalystDevEnvProfile()
-                    const key = randomUUID()
-                    await this.store.addProfile(key, devEnvProfile)
-                    await this.store.setCurrentProfileId(key)
-                } catch (err) {
-                    getLogger().warn(`auth: failed to insert dev env profile: %s`, err)
-                }
-            }
-        }
 
         const conn = await this.restorePreviousSession()
         if (conn !== undefined) {

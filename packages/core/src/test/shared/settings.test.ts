@@ -352,44 +352,6 @@ describe('DevSetting', function () {
     })
 
     describe('getServiceConfig()', function () {
-        describe('get CodeCatalyst config', function () {
-            const devSettingName = 'aws.dev.codecatalystService'
-            const defaultConfig = {
-                region: 'default',
-                endpoint: 'default',
-                hostname: 'default',
-                gitHostname: 'default',
-            }
-
-            it('throws an error for incomplete dev configuration', async function () {
-                const testSetting = {
-                    // missing region
-                    endpoint: 'test_endpoint',
-                    hostname: 'test_hostname',
-                    gitHostname: 'test_githostname',
-                }
-
-                await settings.update(devSettingName, testSetting)
-                assert.throws(() => sut.getServiceConfig('codecatalystService', defaultConfig), ToolkitError)
-            })
-
-            it('returns dev settings configuration when provided', async function () {
-                const testSetting = {
-                    region: 'test_region',
-                    endpoint: 'test_endpoint',
-                    hostname: 'test_hostname',
-                    gitHostname: 'test_githostname',
-                }
-
-                await settings.update(devSettingName, testSetting)
-                assert.deepStrictEqual(sut.getServiceConfig('codecatalystService', defaultConfig), testSetting)
-            })
-
-            it('returns default configuration when dev settings are not provided', function () {
-                assert.deepStrictEqual(sut.getServiceConfig('codecatalystService', defaultConfig), defaultConfig)
-            })
-        })
-
         describe('get Codewhisperer config', function () {
             const devSettingName = 'aws.dev.codewhispererService'
             const defaultConfig = {
